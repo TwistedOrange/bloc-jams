@@ -1,7 +1,7 @@
 # list of files to not track
 #
 # Apple iOS info files
-*.DS_stor
+*.DS_store
 #
 # ignore markdown files anywhere in this repo
 *.md
