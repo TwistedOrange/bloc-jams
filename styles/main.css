@@ -58,7 +58,7 @@ body {
   color: rgb(233,50,117);
 }
 .container {
-  /* set left/right to auto will center it */
+  /* setting margin left/right to auto will center it */
   margin: 0 auto;
   max-width: 64rem;
 }
