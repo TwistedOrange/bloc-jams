@@ -2,10 +2,10 @@ body.collection {
   background-image: url(../assets/images/blurred_backgrounds/blur_bg_2.jpg);
   background-repeat: no-repeat;
 
-  /* image posn fixed w/in viewport not move as scroll */
+  /* image posn fixed w/in viewport doesn't move as scroll */
   background-attachment: fixed;
   background-position: center center; /* horz and vert */
-  background-size: cover; /* scale to fit as viewport changes */
+  background-size: cover; /* scale to fit as viewport size changes */
 }
 
 .album-covers {
