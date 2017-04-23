@@ -57,12 +57,6 @@ body.landing {
   -webkit-transition-delay: 0.2s;
   -moz-transition-delay: 0.2s;
   transition-delay: 0.2s;
-
-  /* experiment w/ other animations */
-  color: green;
-  /*border: 4px dashed orange;*/
-  transform: rotate(15deg);
-  text-transform: lowercase;
 }
 .point .point-title {
   font-size: 1.25rem;
