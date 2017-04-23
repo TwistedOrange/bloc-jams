@@ -1,9 +1,7 @@
 var pointsArray = document.getElementsByClassName('point');
 
 var animatePoints = function(points) {
-  for (var i=0; i<points.length; i++) {
-   revealPoint(points[i]);
-  }
+  forEach(points, revealPoint);
 
   // var revealPoint = function(index) {
   //   points[index].style.opacity = 1;
@@ -18,12 +16,12 @@ var animatePoints = function(points) {
 };
 
 // moved outside of animatePoints() as best practice per https://callbackhell.com
-function revealPoint(pt) {
+var revealPoint = function(pt) {
   pt.style.opacity = 1;
   pt.style.transform = "scaleX(1) translateY(0)";
   pt.style.msTransform = "scaleX(1) translateY(0)";
   pt.style.WebkitTransform = "scaleX(1) translateY(0)";
-}
+};
 
 window.onload = function() {
   var sellingPoints = document.getElementsByClassName('selling-points')[0];
