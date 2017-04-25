@@ -6,7 +6,8 @@ body.landing {
   min-height: 600px;
   background-image: url("../assets/images/bloc_jams_bg.jpg");
   background-repeat: no-repeat;
-  background-position: cover;
+  background-position: center center;
+  background-size: cover;
 }
 .hero-content .hero-title {
   position: absolute;
