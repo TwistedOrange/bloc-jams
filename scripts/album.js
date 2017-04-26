@@ -97,25 +97,28 @@ var setCurrentAlbum = function(album) {
 var allAlbums = [ albumPicasso, albumMarconi, albumEurythmics ];
 
 window.onload = function() {
-  var idx = 0, nextIdx = 0;
+  var idx = 0;
 
   // display diff album when album cover image is clicked
+/*
+  ERROR. dev tools says "document.getElementsByClassName('album-cover-art').addEventListener"
+     is not a function. Why is that?
+  document.getElementsByClassName('album-cover-art').addEventListener('click', function() {
+    console.log('did click, show diff album cover');
+    //console.log(allAlbums.info[i]);
+  } );
+*/
 
-  // ERROR. dev tools says "document.getElementsByClassName('album-cover-art').addEventListener"
-  //    is not a function. Why is that?
-  // document.getElementsByClassName('album-cover-art').addEventListener('click', function() {
-  //   console.log('did click, show diff album cover');
-  //   //console.log(allAlbums.info[i]);
-  // } );
+  setCurrentAlbum( allAlbums[idx++] );
 
   albumImage.addEventListener('click', function(e) {
-    setCurrentAlbum( allAlbums[idx] );
-    idx++;
+    //console.log('show album ', idx);
+    setCurrentAlbum( allAlbums[idx++] );
+
     if ( idx === allAlbums.length ) {
-      idx = Math.floor(Math.random() * 3);      // wrap around to first album cover
-      // add test for same index so not display same cover
+      idx = 0     // wrap around to first album cover
     }
-    console.log("show album #" + idx);
+    //console.log("next album #" + idx);
   });
 
 };
