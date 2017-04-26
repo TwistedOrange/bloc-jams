@@ -30,6 +30,27 @@ var albumMarconi = {
   ]
 };
 
+// add my own album
+var albumEurythmics = {
+  title: 'Sweet Dreams',
+  artist: 'Eurythmics',
+  label: 'RCA Records',
+  year: '1983',
+  albumArtUrl: 'assets/images/album_covers/eurythmics.jpg',
+  songs: [
+    { title: 'Love is a Stranger', duration: '3:43' },
+    { title: "I've Got an Angel", duration: '2:45' },
+    { title: 'Wrap It Up', duration: '3:34' },
+    { title: 'I Could Give You (A Mirror)', duration: '3:51' },
+    { title: 'The Walk', duration: '4:43' },
+    { title: 'Sweet Dreams (Are Made of This)', duration: '3:36' },
+    { title: 'Jennifer', duration: '5:09' },
+    { title: 'This is the House', duration: '5:01' },
+    { title: 'Somebody Told Me', duration: '3:30' },
+    { title: 'This City Never Sleeps', duration: '6:40' }
+  ]
+};
+
 // create new song entry in table based on new song data
 var createSongRow = function(songNumber, songName, songLength) {
   var template =
@@ -43,13 +64,20 @@ var createSongRow = function(songNumber, songName, songLength) {
     return template;
 };
 
+// (for assignment) move outside so can access easier
+var albumTitle = document.getElementsByClassName('album-view-title')[0];
+var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+var albumImage = document.getElementsByClassName('album-cover-art')[0];
+var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+
 var setCurrentAlbum = function(album) {
   // #1 - identify where to add new album data based on class names
-  var albumTitle = document.getElementsByClassName('album-view-title')[0];
-  var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-  var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-  var albumImage = document.getElementsByClassName('album-cover-art')[0];
-  var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+  // var albumTitle = document.getElementsByClassName('album-view-title')[0];
+  // var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+  // var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+  // var albumImage = document.getElementsByClassName('album-cover-art')[0];
+  // var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
 
   // #2 - set new album info from passed argument, add as child entry
   albumTitle.firstChild.nodeValue = album.title;
@@ -66,6 +94,28 @@ var setCurrentAlbum = function(album) {
   }
 };
 
+var allAlbums = [ albumPicasso, albumMarconi, albumEurythmics ];
+
 window.onload = function() {
-  setCurrentAlbum(albumPicasso);
+  var idx = 0, nextIdx = 0;
+
+  // display diff album when album cover image is clicked
+
+  // ERROR. dev tools says "document.getElementsByClassName('album-cover-art').addEventListener"
+  //    is not a function. Why is that?
+  // document.getElementsByClassName('album-cover-art').addEventListener('click', function() {
+  //   console.log('did click, show diff album cover');
+  //   //console.log(allAlbums.info[i]);
+  // } );
+
+  albumImage.addEventListener('click', function(e) {
+    setCurrentAlbum( allAlbums[idx] );
+    idx++;
+    if ( idx === allAlbums.length ) {
+      idx = Math.floor(Math.random() * 3);      // wrap around to first album cover
+      // add test for same index so not display same cover
+    }
+    console.log("show album #" + idx);
+  });
+
 };
