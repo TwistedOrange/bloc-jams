@@ -100,25 +100,17 @@ window.onload = function() {
   var idx = 0;
 
   // display diff album when album cover image is clicked
-/*
-  ERROR. dev tools says "document.getElementsByClassName('album-cover-art').addEventListener"
-     is not a function. Why is that?
-  document.getElementsByClassName('album-cover-art').addEventListener('click', function() {
-    console.log('did click, show diff album cover');
-    //console.log(allAlbums.info[i]);
-  } );
-*/
-
-  setCurrentAlbum( allAlbums[idx++] );
+  setCurrentAlbum( allAlbums[idx] );
 
   albumImage.addEventListener('click', function(e) {
+    idx++;
     //console.log('show album ', idx);
-    setCurrentAlbum( allAlbums[idx++] );
 
     if ( idx === allAlbums.length ) {
       idx = 0     // wrap around to first album cover
     }
     //console.log("next album #" + idx);
+    setCurrentAlbum( allAlbums[idx] );
   });
 
 };
