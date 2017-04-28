@@ -31,10 +31,11 @@ var albumMarconi = {
 };
 
 // create new song entry in table based on new song data
+// retain song # in data-X attrib when replace it with play icon so it can be restored
 var createSongRow = function(songNumber, songName, songLength) {
   var template =
     '<tr class="album-view-song-item">'
-    + ' <td class="song-item-number">' + songNumber + '</td>'
+    + ' <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
     + ' <td class="song-item-title">' + songName + '</td>'
     + ' <td class="song-item-duration">' + songLength + '</td>'
     + '</tr>'
@@ -60,12 +61,37 @@ var setCurrentAlbum = function(album) {
   // #3 - delete any existing entries
   albumSongList.innerHTML = '';
 
-  // #4 - add each song in album to table
+  // #4 - add each song in album as a new table row
   for (var i = 0; i < album.songs.length; i++) {
     albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
   }
 };
 
+var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
+var songRows = document.getElementsByClassName('album-view-song-item');
+
+var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
+
 window.onload = function() {
   setCurrentAlbum(albumPicasso);
+
+  songListContainer.addEventListener('mouseover', function(e) {
+    // console.log(e.target);
+    // only target individual song rows during event delegation
+    if ( e.target.parentElement.className === 'album-view-song-item' ) {
+      // change the content for current (moused over) from songNumber to the play button's HTML
+      e.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
+    }
+  });
+
+  // attach to each row (instead of using event delegation) because action of
+  //   leaving a cell can't be specified as easily by listening to the parent.
+  for (var i = 0; i < songRows.length; i++) {
+    songRows[i].addEventListener('mouseleave', function(e) {
+      // restore the song number by overwriting the play button
+
+      // select 1st child
+      this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
+    });
+  }
 };
