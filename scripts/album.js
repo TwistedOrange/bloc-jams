@@ -69,9 +69,16 @@ var setCurrentAlbum = function(album) {
 
 // For given element, find nearest parent with the specified class name
 var findParentByClassName = function(elem, findParentName) {
+  // check if requested parent class exists anywhere
   var node = document.querySelector('.'+ findParentName);
 
-  if (elem === null || node === null) {
+  if ( node === null ) {
+    console.log('No element found with that classname');
+    return null;
+  }
+
+  // errors in requested parent or elem itself
+  if ( elem === null ) {
     return null;
   }
 
