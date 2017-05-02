@@ -68,28 +68,32 @@ var setCurrentAlbum = function(album) {
 };
 
 // For given element, find nearest parent with the specified class name
+// NOTE: does not handle multiple class names e.g., class="cname1 cname2 cname3"
 var findParentByClassName = function(elem, findParentName) {
-  // check if requested parent class exists anywhere
-  var node = document.querySelector('.'+ findParentName);
+  // check if requested parent class exists anywhere on current page
 
-  if ( node === null ) {
-    console.log('No element found with that classname');
-    return null;
-  }
-
-  // errors in requested parent or elem itself
-  if ( elem === null ) {
-    return null;
-  }
+  // if ( document.querySelector('.' + findParentName ) === null ) {
+  //   console.log('No element with classname "' + findParentName + '" exists on ' +
+  //     window.location.href.substr(window.location.href.lastIndexOf('/') ) );
+  //   return null;
+  // }
+  //
+  // // errors in elem itself
+  // if ( elem === null ) {
+  //   return null;
+  // }
 
   // from initial element traverse up DOM for parent with class name
   var thisParent = elem.parentElement;
+  if ( thisParent.parentElement === null ) {
+    console.log('No parent found');
+    return null;
+  }
 
-  // does not handle multiple class names e.g., class="cname1 cname2 cname3"
   while ( thisParent.className !== findParentName && thisParent.className !== null ) {
     thisParent = thisParent.parentElement;
   }
-  return thisParent;
+  return thisParent === null ? console.log('No parent found with that class name') : thisParent;
 };
 
 // Return immediate parent of given song element (from any event type)
