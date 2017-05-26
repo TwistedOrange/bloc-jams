@@ -58,7 +58,7 @@ var createSongRow = function(songNumber, songName, songLength) {
       var $selectedSong = $(this).find('.song-item-number');
 
       // If current song not playing, swap out song # for Play icon
-      if ( $selectedSong.attr('data-song-number') !== currentlyPlayingSongNumber ) {
+      if ( $selectedSong.attr('data-song-number') !== currentlyPlayingSongNumber * 1 ) {
         $selectedSong.html(playButtonTemplate);
       }
     };
@@ -66,7 +66,7 @@ var createSongRow = function(songNumber, songName, songLength) {
     var offHover = function(e) {
       var $selectedSong = $(this).find('.song-item-number');
 
-      if ( songNumber != currentlyPlayingSongNumber ) {
+      if ( songNumber !== currentlyPlayingSongNumber * 1 ) {
         // restore the song number to replace the icon
         $selectedSong.html(songNumber);
       }
@@ -121,7 +121,8 @@ var updatePlayerBarSong = function() {
   // capture state when toggle same song from play to pause to play append
   //  song number is not yet set
   if ( currentlyPlayingSongNumber !== null ) {
-    $('h2.song-name').text(currentAlbum.songs[currentlyPlayingSongNumber-1].title);
+    $('h2.song-name').text(currentAlbum.songs[currentlyPlayingSongNumber].title);
+    //$('h2.song-name').text(currentAlbum.songs[currentlyPlayingSongNumber-1].title);
     $('h2.artist-song-mobile').text(currentAlbum.title + ' - ' + currentAlbum.artist);
 
     // replicate play state on lower player bar
@@ -229,4 +230,7 @@ var $nextButton = $('.main-controls .next');
 
 $(function() {      // DOM is ready
   setCurrentAlbum(albumPicasso);
+
+  $previousButton.click(prevSong);
+  $nextButton.click(nextSong);
 });
