@@ -138,9 +138,9 @@ var updatePlayerBarSong = function() {
 
 // jump to next song in album to play (update player bar & album list)
 var nextSong = function() {
-  if ( currentlyPlayingSongNumber === null ) {
-    return;           // no 'next' song to move to
-  }
+  // if ( currentlyPlayingSongNumber === null ) {
+  //   return;           // no 'next' song to move to
+  // }
 
   var songIndexInAlbum = trackIndex(currentAlbum, currentSongFromAlbum);
   songIndexInAlbum++;
@@ -167,9 +167,9 @@ var nextSong = function() {
 };
 
 var prevSong = function() {
-  if ( currentlyPlayingSongNumber === null ) {
-    return;           // no 'previous' song to move to
-  }
+  // if ( currentlyPlayingSongNumber === null ) {
+  //   return;           // no 'previous' song to move to
+  // }
 
   var songIndexInAlbum = trackIndex(currentAlbum, currentSongFromAlbum);
   songIndexInAlbum--;
@@ -177,7 +177,7 @@ var prevSong = function() {
   // jump to last song if at the first song
   //songIndexInAlbum >= currentAlbum.songs.length ? songIndexInAlbum = 0 : songIndexInAlbum--;
   if ( songIndexInAlbum  < 0 ) {
-    songIndexInAlbum = currentAlbum.songs.length -1;
+    songIndexInAlbum = currentAlbum.songs.length - 1;
   }
   var recentSongPlayed = currentlyPlayingSongNumber;
   currentlyPlayingSongNumber = songIndexInAlbum + 1;
