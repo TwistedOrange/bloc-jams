@@ -33,6 +33,7 @@ var createSongRow = function(songNumber, songName, songLength) {
         // update active song #
         currentlyPlayingSongNumber = songNumber;
         currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+
         // update song bar to reflect song status
         updatePlayerBarSong();
 
@@ -44,8 +45,9 @@ var createSongRow = function(songNumber, songName, songLength) {
         $('.main-controls .play-pause').html(playerBarPlayButton);
         //$('h2.song-name').html('');
 
-        currentlyPlayingSongNumber = null;
-        currentSongFromAlbum = null;
+        setSong();
+        // currentlyPlayingSongNumber = null;
+        // currentSongFromAlbum = null;
       }
 
       // update bottom player bar with current song info & status
@@ -83,15 +85,10 @@ var createSongRow = function(songNumber, songName, songLength) {
 };
 
 
-// Helper function to set commonly used vars, if songNumber undefined
-//   init vars to null
-var setSong = function(songNumber) {
-  // reset vars to default value
-  if ( songNumber === undefined ) {
-    currentlyPlayingSongNumber = currentSongFromAlbum = null;
-  } else {
-    currentlyPlayingSongNumber = currentSongFromAlbum = songNumber;
-  }
+// Helper function to set commonly used vars, if no arg provided,
+//   init vars to null (default value)
+var setSong = function(songNumber = null) {
+  currentlyPlayingSongNumber = currentSongFromAlbum = songNumber;
 };
 
 //** Return HTML song element for given song number
@@ -155,9 +152,6 @@ var updatePlayerBarSong = function() {
 
 // jump to next song in album to play (update player bar & album list)
 var nextSong = function() {
-  // if ( currentlyPlayingSongNumber === null ) {
-  //   return;           // no 'next' song to move to
-  // }
 
   var songIndexInAlbum = trackIndex(currentAlbum, currentSongFromAlbum);
   songIndexInAlbum++;
@@ -184,9 +178,6 @@ var nextSong = function() {
 };
 
 var prevSong = function() {
-  // if ( currentlyPlayingSongNumber === null ) {
-  //   return;           // no 'previous' song to move to
-  // }
 
   var songIndexInAlbum = trackIndex(currentAlbum, currentSongFromAlbum);
   songIndexInAlbum--;
