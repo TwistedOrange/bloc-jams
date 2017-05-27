@@ -58,7 +58,7 @@ var createSongRow = function(songNumber, songName, songLength) {
       var $selectedSong = $(this).find('.song-item-number');
 
       // If current song not playing, swap out song # for Play icon
-      if ( $selectedSong.attr('data-song-number') !== currentlyPlayingSongNumber * 1 ) {
+      if ( $selectedSong.attr('data-song-number') !== currentlyPlayingSongNumber ) {
         $selectedSong.html(playButtonTemplate);
       }
     };
@@ -66,7 +66,7 @@ var createSongRow = function(songNumber, songName, songLength) {
     var offHover = function(e) {
       var $selectedSong = $(this).find('.song-item-number');
 
-      if ( songNumber !== currentlyPlayingSongNumber * 1 ) {
+      if ( songNumber !== currentlyPlayingSongNumber ) {
         // restore the song number to replace the icon
         $selectedSong.html(songNumber);
       }
@@ -82,8 +82,16 @@ var createSongRow = function(songNumber, songName, songLength) {
     return $row;
 };
 
-var setSong = function(songNumber) {
 
+// Helper function to set commonly used vars, if songNumber undefined
+//   init vars to null
+var setSong = function(songNumber) {
+  // reset vars to default value
+  if ( songNumber === undefined ) {
+    currentlyPlayingSongNumber = currentSongFromAlbum = null;
+  } else {
+    currentlyPlayingSongNumber = currentSongFromAlbum = songNumber;
+  }
 };
 
 //** Return HTML song element for given song number
