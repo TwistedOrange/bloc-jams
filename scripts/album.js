@@ -15,7 +15,7 @@ var createSongRow = function(songNumber, songName, songLength) {
 
     // replaces standalone clickHandler()
     var clickHandler = function() {
-      var songNumber = $(this).attr('data-song-number');
+      var songNumber = parseInt($(this).attr('data-song-number'));
 
       // user selected a new song to play
       if ( currentlyPlayingSongNumber === null ) {
@@ -118,14 +118,13 @@ var trackIndex = function(album, song) {
 // update player bar with song title & artist name for selected song
 var updatePlayerBarSong = function() {
 
-  // capture state when toggle same song from play to pause to play append
+  // capture state when toggle same song from play to pause to play
   //  song number is not yet set
   if ( currentlyPlayingSongNumber !== null ) {
-    $('h2.song-name').text(currentAlbum.songs[currentlyPlayingSongNumber].title);
-    //$('h2.song-name').text(currentAlbum.songs[currentlyPlayingSongNumber-1].title);
+    $('h2.song-name').text(currentAlbum.songs[currentlyPlayingSongNumber - 1].title);
     $('h2.artist-song-mobile').text(currentAlbum.title + ' - ' + currentAlbum.artist);
 
-    // replicate play state on lower player bar
+    // replicate song state on lower player bar
     $('.main-controls .play-pause').html(playerBarPauseButton);
   }
 
@@ -144,13 +143,16 @@ var nextSong = function() {
   }
 
   var songIndexInAlbum = trackIndex(currentAlbum, currentSongFromAlbum);
+  songIndexInAlbum++;
 
   // jump to first song if at last song
-  songIndexInAlbum >= currentAlbum.songs.length ? songIndexInAlbum = 0 : songIndexInAlbum++;
-
+  //songIndexInAlbum >= currentAlbum.songs.length ? songIndexInAlbum = 0 : songIndexInAlbum++;
+  if ( songIndexInAlbum >= currentAlbum.songs.length ) {
+    songIndexInAlbum = 0;
+  }
   // prep for the next song to be played
   var recentSongPlayed = currentlyPlayingSongNumber;
-  currentlyPlayingSongNumber = songIndexInAlbum;
+  currentlyPlayingSongNumber = songIndexInAlbum + 1;
 
   // change to new/next song in album
   currentSongFromAlbum = currentAlbum.songs[songIndexInAlbum];
@@ -164,43 +166,19 @@ var nextSong = function() {
   $previousSong.html(recentSongPlayed);
 };
 
-// BLOC version
-var nextSong2 = function() {
-    var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
-    // Note that we're _incrementing_ the song here
-    currentSongIndex++;
-
-    if (currentSongIndex >= currentAlbum.songs.length) {
-        currentSongIndex = 0;
-    }
-
-    // Save the last song number before changing it
-    var lastSongNumber = currentlyPlayingSongNumber;
-
-    // Set a new current song
-    currentlyPlayingSongNumber = currentSongIndex + 1;
-    currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
-
-    // Update the Player Bar information
-    updatePlayerBarSong();
-
-    var $nextSongNumberCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
-    var $lastSongNumberCell = $('.song-item-number[data-song-number="' + lastSongNumber + '"]');
-
-    $nextSongNumberCell.html(pauseButtonTemplate);
-    $lastSongNumberCell.html(lastSongNumber);
-};
-
 var prevSong = function() {
   if ( currentlyPlayingSongNumber === null ) {
     return;           // no 'previous' song to move to
   }
 
   var songIndexInAlbum = trackIndex(currentAlbum, currentSongFromAlbum);
+  songIndexInAlbum--;
 
-  // jump to first song if at last song
-  songIndexInAlbum >= currentAlbum.songs.length ? songIndexInAlbum = 0 : songIndexInAlbum--;
-
+  // jump to last song if at the first song
+  //songIndexInAlbum >= currentAlbum.songs.length ? songIndexInAlbum = 0 : songIndexInAlbum--;
+  if ( songIndexInAlbum  < 0 ) {
+    songIndexInAlbum = currentAlbum.songs.length -1;
+  }
   var recentSongPlayed = currentlyPlayingSongNumber;
   currentlyPlayingSongNumber = songIndexInAlbum + 1;
 
