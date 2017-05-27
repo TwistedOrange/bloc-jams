@@ -82,6 +82,15 @@ var createSongRow = function(songNumber, songName, songLength) {
     return $row;
 };
 
+var setSong = function(songNumber) {
+
+};
+
+//** Return HTML song element for given song number
+var getSongNumberCell = function(number) {
+  return $('.song-item-number[data-song-number="' + number + '"]');
+};
+
 var setCurrentAlbum = function(album) {
   currentAlbum = album;       // global visibility
 
@@ -159,8 +168,8 @@ var nextSong = function() {
 
   updatePlayerBarSong();
 
-  var $nextSong = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
-  var $previousSong = $('.song-item-number[data-song-number="' + recentSongPlayed + '"]');
+  var $nextSong = getSongNumberCell(currentlyPlayingSongNumber);
+  var $previousSong = getSongNumberCell(recentSongPlayed);
 
   $nextSong.html(pauseButtonTemplate);
   $previousSong.html(recentSongPlayed);
@@ -187,8 +196,8 @@ var prevSong = function() {
   // change to new/next song in album
   currentSongFromAlbum = currentAlbum.songs[songIndexInAlbum];
 
-  var $nextSong = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
-  var $previousSong = $('.song-item-number[data-song-number="' + recentSongPlayed + '"]');
+  var $nextSong = getSongNumberCell(currentlyPlayingSongNumber);
+  var $previousSong = getSongNumberCell(recentSongPlayed);
 
   $nextSong.html(pauseButtonTemplate);
   $previousSong.html(recentSongPlayed);
