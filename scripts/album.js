@@ -150,43 +150,31 @@ var updatePlayerBarSong = function() {
   }
 };
 
-// jump to next song in album to play (update player bar & album list)
-var nextSong = function() {
+
+// Update song player to show next or previous song based on which
+//    button was clicked.
+var showNewSong = function(e) {
+  var clickedPrev = false;
+
+  // TRUE for clicked Previous button, else clicked Next button
+  clickedPrev = e.currentTarget.className === 'previous';
 
   var songIndexInAlbum = trackIndex(currentAlbum, currentSongFromAlbum);
-  songIndexInAlbum++;
 
-  // jump to first song if at last song
-  //songIndexInAlbum >= currentAlbum.songs.length ? songIndexInAlbum = 0 : songIndexInAlbum++;
-  if ( songIndexInAlbum >= currentAlbum.songs.length ) {
-    songIndexInAlbum = 0;
+  if ( clickedPrev ) {
+    songIndexInAlbum--;
+
+    if ( songIndexInAlbum  < 0 ) {
+      songIndexInAlbum = currentAlbum.songs.length - 1;
+    }
+  } else {                 // next button
+    songIndexInAlbum++;
+
+    if ( songIndexInAlbum >= currentAlbum.songs.length ) {
+      songIndexInAlbum = 0;
+    }
   }
-  // prep for the next song to be played
-  var recentSongPlayed = currentlyPlayingSongNumber;
-  currentlyPlayingSongNumber = songIndexInAlbum + 1;
 
-  // change to new/next song in album
-  currentSongFromAlbum = currentAlbum.songs[songIndexInAlbum];
-
-  updatePlayerBarSong();
-
-  var $nextSong = getSongNumberCell(currentlyPlayingSongNumber);
-  var $previousSong = getSongNumberCell(recentSongPlayed);
-
-  $nextSong.html(pauseButtonTemplate);
-  $previousSong.html(recentSongPlayed);
-};
-
-var prevSong = function() {
-
-  var songIndexInAlbum = trackIndex(currentAlbum, currentSongFromAlbum);
-  songIndexInAlbum--;
-
-  // jump to last song if at the first song
-  //songIndexInAlbum >= currentAlbum.songs.length ? songIndexInAlbum = 0 : songIndexInAlbum--;
-  if ( songIndexInAlbum  < 0 ) {
-    songIndexInAlbum = currentAlbum.songs.length - 1;
-  }
   var recentSongPlayed = currentlyPlayingSongNumber;
   currentlyPlayingSongNumber = songIndexInAlbum + 1;
 
@@ -201,6 +189,7 @@ var prevSong = function() {
   $nextSong.html(pauseButtonTemplate);
   $previousSong.html(recentSongPlayed);
 };
+
 
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
@@ -217,6 +206,6 @@ var $nextButton = $('.main-controls .next');
 $(function() {      // DOM is ready
   setCurrentAlbum(albumPicasso);
 
-  $previousButton.click(prevSong);
-  $nextButton.click(nextSong);
+  $previousButton.click(showNewSong);
+  $nextButton.click(showNewSong);
 });
