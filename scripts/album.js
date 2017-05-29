@@ -57,20 +57,25 @@ var createSongRow = function(songNumber, songName, songLength) {
     // Replaces 'mouseover' event handler
     //    swap out song number with play/pause icon
     var onHover = function(e) {
-      var $selectedSong = $(this).find('.song-item-number');
+      var $songCell = $(this).find('.song-item-number');
+      // force string to int for accurate comparison
+      var songNumber = parseInt($songCell.attr('data-song-number'));
 
       // If current song not playing, swap out song # for Play icon
-      if ( $selectedSong.attr('data-song-number') !== currentlyPlayingSongNumber ) {
-        $selectedSong.html(playButtonTemplate);
+
+      if ( songNumber !== currentlyPlayingSongNumber) {
+        $songCell.html(playButtonTemplate);
       }
     };
 
     var offHover = function(e) {
-      var $selectedSong = $(this).find('.song-item-number');
+      var $songCell = $(this).find('.song-item-number');
+      // force string to int for accurate comparison
+      var songNumber = parseInt($songCell.attr('data-song-number'));
 
       if ( songNumber !== currentlyPlayingSongNumber ) {
         // restore the song number to replace the icon
-        $selectedSong.html(songNumber);
+        $songCell.html(songNumber);
       }
     };
 
