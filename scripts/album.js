@@ -241,6 +241,24 @@ var setVolume = function(level) {
 };
 
 
+var togglePlayFromPlayerBar = function() {
+  var $playingSongCell = getSongNumberCell(currentlyPlayingSongNumber);
+
+  if ( currentSoundFile ) {
+    if ( currentSoundFile.isPaused() ) {
+      //console.log('song is paused, change player bar icon from Pause to Play');
+      $playingSongCell.html(playButtonTemplate);
+      $(this).html(playerBarPlayButton);
+    } else {
+      //console.log('song is playing, change player bar icon from Play to Pause');
+      $playingSongCell.html(pauseButtonTemplate);
+      $(this).html(playerBarPauseButton);
+    }
+
+    currentSoundFile.togglePlay();
+  }
+};
+
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
 var playerBarPlayButton = '<span class="ion-play"></span>';
@@ -254,6 +272,7 @@ var currentVolume = 80;
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
+var $playBarPlayPauseControl = $('.main-controls .play-pause');
 
 
 $(function() {      // DOM is ready
@@ -262,4 +281,5 @@ $(function() {      // DOM is ready
   $previousButton.click(prevSong);
   $nextButton.click(nextSong);
 
+  $playBarPlayPauseControl.click(togglePlayFromPlayerBar);
 });
