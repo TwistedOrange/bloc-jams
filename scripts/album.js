@@ -34,6 +34,9 @@ var createSongRow = function(songNumber, songName, songLength) {
         currentlyPlayingSongNumber = songNumber;
         currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
 
+        setSong(songNumber);
+        currentSoundFile.play();
+
         // update song bar to reflect song status
         updatePlayerBarSong();
 
@@ -90,8 +93,11 @@ var createSongRow = function(songNumber, songName, songLength) {
 };
 
 
-// Helper function to set commonly used vars, if no arg provided,
-//   init vars to null (default value)
+/**
+ * setSong() - fetch song object for selected song to play
+ * @param  {string} songNumber [displayed song number]
+ * @return {[n/a]}
+ */
 var setSong = function(songNumber) {
   currentlyPlayingSongNumber = parseInt(songNumber);
   currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
