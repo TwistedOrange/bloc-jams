@@ -45,7 +45,7 @@ var createSongRow = function(songNumber, songName, songLength) {
         $('.main-controls .play-pause').html(playerBarPlayButton);
         //$('h2.song-name').html('');
 
-        setSong();
+        setSong(songNumber);
         // currentlyPlayingSongNumber = null;
         // currentSongFromAlbum = null;
       }
@@ -92,8 +92,14 @@ var createSongRow = function(songNumber, songName, songLength) {
 
 // Helper function to set commonly used vars, if no arg provided,
 //   init vars to null (default value)
-var setSong = function(songNumber = null) {
-  currentlyPlayingSongNumber = currentSongFromAlbum = songNumber;
+var setSong = function(songNumber) {
+  currentlyPlayingSongNumber = parseInt(songNumber);
+  currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+
+  currentSoundFile = new buzz.sound(currentSongFromAlbum.audioUrl, {
+    formats: [ 'mp3' ],
+    preload: true
+  });
 };
 
 //** Return HTML song element for given song number
@@ -207,6 +213,7 @@ var prevSong = function() {
   $previousSong.html(recentSongPlayed);
 };
 
+
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
 var playerBarPlayButton = '<span class="ion-play"></span>';
@@ -215,6 +222,7 @@ var playerBarPauseButton = '<span class="ion-pause"></span>';
 var currentlyPlayingSongNumber = null;
 var currentAlbum = null;
 var currentSongFromAlbum = null;      // current song's object
+var currentSoundFile = null;          // song sound file object
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
