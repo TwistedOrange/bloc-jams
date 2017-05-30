@@ -1,7 +1,7 @@
 // source: https://archive.org/details/OTRR_An_Evening_With_Groucho_Singles
 var albumPicasso = {
   title: 'Old Time Radio',
-  artist: 'Grocho Marx',
+  artist: 'Groucho Marx',
   label: '',
   year: 'Oct 1890 - Aug 1977',
   albumArtUrl: 'assets/images/album_covers/groucho.jpg',
