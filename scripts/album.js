@@ -159,8 +159,9 @@ var setCurrentAlbum = function(album) {
 var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
   var offsetXPercent = seekBarFillRatio * 100;
 
+  // confirm range between 0 - 100
   offsetXPercent = Math.max(0, offsetXPercent);
-  offsetXPercent = Math.min(0, offsetXPercent);
+  offsetXPercent = Math.min(100, offsetXPercent);
 
   var percentageString = offsetXPercent + '%';
   // left side of duration bar (time that's played)
@@ -168,6 +169,24 @@ var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
 
   // right side of duration bar (time remaining, %)
   $seekBar.find('.thumb').css( { left: percentageString });
+};
+
+
+var setupSeekBars = function() {
+  var $seekBars = $('.player-bar .seek-bar');
+
+  $seekBars.click(function(event) {
+    // save horz coordinate at which event occurred (location on
+    //  seek control bar that was clicked to change what
+    //  part of song is to be played)
+    var offsetX = event.pageX - $(this).offset().left;
+    var barWidth = $(this).width();
+
+    // new width of seek bar after adjusted by clicked
+    var seekBarFillRatio = offsetX / barWidth;
+
+    updateSeekPercentage( $(this), seekBarFillRatio);
+  });
 };
 
 
@@ -290,6 +309,7 @@ var $playBarPlayPauseControl = $('.main-controls .play-pause');
 
 $(function() {      // DOM is ready
   setCurrentAlbum(albumPicasso);
+  setupSeekBars();
 
   $previousButton.click(prevSong);
   $nextButton.click(nextSong);

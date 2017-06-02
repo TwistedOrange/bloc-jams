@@ -37,11 +37,11 @@ var albumPicasso = {
   // ]
   // change to seconds
   songs: [
-    { title: 'Green Acres', duration: 64.0, audioUrl: 'assets/music/grnacres' },
-    { title: 'Andy Griffith Show', duration: 50.0, audioUrl: 'assets/music/andgrif' },
-    { title: 'Cheers', duration: 63.0, audioUrl: 'assets/music/cheers' },
-    { title: "Gilligan's Island", duration: 91.0, audioUrl: 'assets/music/gilligan' },
-    { title: 'Batman', duration: 43.0, audioUrl: 'assets/music/batman' }
+    { title: 'Green Acres', duration: 161.71, audioUrl: 'assets/music/grnacres' },
+    { title: 'Andy Griffith Show', duration: 103.95, audioUrl: 'assets/music/andgrif' },
+    { title: 'Cheers', duration: 268.45, audioUrl: 'assets/music/cheers' },
+    { title: "Gilligan's Island", duration: 153.45, audioUrl: 'assets/music/gilligan' },
+    { title: 'Batman', duration: 374.22, audioUrl: 'assets/music/batman' }
   ]
 };
 
