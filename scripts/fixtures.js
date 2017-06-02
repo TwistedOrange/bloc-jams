@@ -13,6 +13,7 @@ var albumPicasso = {
   ]
 };
 
+
 // another example album
 var albumMarconi = {
   title: 'The Telephone',

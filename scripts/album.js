@@ -20,24 +20,19 @@ var createSongRow = function(songNumber, songName, songLength) {
       // user selected a new song to play
       if ( currentlyPlayingSongNumber === null ) {
         // new song to play
-        currentlyPlayingSongNumber = songNumber;
+        //currentlyPlayingSongNumber = songNumber;
         $(this).html(pauseButtonTemplate);
         setSong(songNumber);
+
+        currentSoundFile.play();
 
       } else if (currentlyPlayingSongNumber !== songNumber ) {
         // new song is now playing, show pause icon
         setSong(songNumber);
         currentSoundFile.play();
 
-        // replace pause icon for currently playing song with its song #
-        //$('.song-item-number').eq(currentlyPlayingSongNumber-1).html(currentlyPlayingSongNumber);
-
         // replace song # of selected song with pause icon
         $(this).html(pauseButtonTemplate);
-
-        // update active song #
-        //--currentlyPlayingSongNumber = songNumber;
-        currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
 
         // update song bar to reflect song status
         updatePlayerBarSong();
@@ -59,7 +54,7 @@ var createSongRow = function(songNumber, songName, songLength) {
       } // paused current song
 
       // update bottom player bar with current song info & status
-      //--updatePlayerBarSong();
+      updatePlayerBarSong();
     };
 
     // Replaces 'mouseover' event handler
