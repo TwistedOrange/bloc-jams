@@ -14,19 +14,19 @@
 // };
 
 
-// source: https://archive.org/details/OTRR_An_Evening_With_Groucho_Singles
+// source: http://www.barbneal.com/the-collection/tv-theme-songs/
 var albumPicasso = {
-  title: 'Old Time Radio',
-  artist: 'Groucho Marx',
+  title: "70's TV Theme Songs",
+  artist: 'Various Artists',
   label: '',
-  year: 'Oct 1890 - Aug 1977',
-  albumArtUrl: 'assets/images/album_covers/groucho.jpg',
+  year: '1973-1978',
+  albumArtUrl: 'assets/images/album_covers/70s-tv.jpg',
   songs: [
-    { title: 'Toronto Song', duration: '1:35', audioUrl: 'assets/music/toronto' },
-    { title: 'Uncle Julius', duration: '1:37', audioUrl: 'assets/music/unclejulius' },
-    { title: 'Houdini Story', duration: '1:17', audioUrl: 'assets/music/houdini' },
-    { title: 'How I Got Started', duration: '0:55', audioUrl: 'assets/music/started' },
-    { title: 'Hello, I Must Be Going', duration: '0:42', audioUrl: 'assets/music/going' }
+    { title: 'Green Acres', duration: '1:04', audioUrl: 'assets/music/grnacres' },
+    { title: 'Andy Griffith Show', duration: '0:50', audioUrl: 'assets/music/andgrif' },
+    { title: 'Cheers', duration: '1:03', audioUrl: 'assets/music/cheers' },
+    { title: "Gilligan's Island", duration: '1:31', audioUrl: 'assets/music/gilligan' },
+    { title: 'Batman', duration: '0:43', audioUrl: 'assets/music/batman' }
   ]
 };
 
