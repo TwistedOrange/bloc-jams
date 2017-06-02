@@ -24,6 +24,8 @@ var createSongRow = function(songNumber, songName, songLength) {
         $(this).html(pauseButtonTemplate);
         setSong(songNumber);
 
+        currentSoundFile.play();
+
       } else if (currentlyPlayingSongNumber !== songNumber ) {
         // new song is now playing, show pause icon
         setSong(songNumber);
