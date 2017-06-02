@@ -37,7 +37,6 @@ var createSongRow = function(songNumber, songName, songLength) {
         $(this).html(pauseButtonTemplate);
 
         // update active song #
-        //--currentlyPlayingSongNumber = songNumber;
         currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
 
         // update song bar to reflect song status
@@ -45,8 +44,6 @@ var createSongRow = function(songNumber, songName, songLength) {
 
       } else if ( currentlyPlayingSongNumber === songNumber ) {
         // user paused previously active song
-        //--$(this).html(songNumber);             // restore song #
-
         if ( currentSoundFile.isPaused() ) {
           // update player bar to reflect song status
           $(this).html(pauseButtonTemplate);
@@ -60,7 +57,7 @@ var createSongRow = function(songNumber, songName, songLength) {
       } // paused current song
 
       // update bottom player bar with current song info & status
-      //--updatePlayerBarSong();
+      updatePlayerBarSong();
     };
 
     // Replaces 'mouseover' event handler
@@ -170,24 +167,19 @@ var updatePlayerBarSong = function() {
 
     // replicate song state on lower player bar
     $('.main-controls .play-pause').html(playerBarPauseButton);
+  } else {
+    console.log('update player bar to show Play icon');
   }
 
   $('h2.artist-name').text(currentAlbum.artist);
-
-  if ( currentlyPlayingSongNumber === null ) {
-    // no song playing, remove the song title from player bar
-    //$('h2.song-name').html('');
-  }
 };
 
 // jump to next song in album to play (update player bar & album list)
 var nextSong = function() {
-
   var songIndexInAlbum = trackIndex(currentAlbum, currentSongFromAlbum);
   songIndexInAlbum++;
 
   // jump to first song if at last song
-  //songIndexInAlbum >= currentAlbum.songs.length ? songIndexInAlbum = 0 : songIndexInAlbum++;
   if ( songIndexInAlbum >= currentAlbum.songs.length ) {
     songIndexInAlbum = 0;
   }
@@ -210,7 +202,6 @@ var nextSong = function() {
 };
 
 var prevSong = function() {
-
   var songIndexInAlbum = trackIndex(currentAlbum, currentSongFromAlbum);
   songIndexInAlbum--;
 
@@ -241,6 +232,25 @@ var setVolume = function(level) {
   }
 };
 
+// added from ckpt20-assignment
+var togglePlayFromPlayerBar = function() {
+  var $playingSongCell = getSongNumberCell(currentlyPlayingSongNumber);
+
+  if ( currentSoundFile ) {
+    if ( currentSoundFile.isPaused() ) {
+      //console.log('song is paused, change player bar icon from Pause to Play');
+      $playingSongCell.html(playButtonTemplate);
+      $(this).html(playerBarPlayButton);
+    } else {
+      //console.log('song is playing, change player bar icon from Play to Pause');
+      $playingSongCell.html(pauseButtonTemplate);
+      $(this).html(playerBarPauseButton);
+    }
+
+    currentSoundFile.togglePlay();
+  }
+};
+
 
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
@@ -255,7 +265,8 @@ var currentVolume = 80;
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
-
+// added from ckpt20-assignment
+var $playBarPlayPauseControl = $('.main-controls .play-pause');
 
 $(function() {      // DOM is ready
   setCurrentAlbum(albumPicasso);
@@ -263,4 +274,6 @@ $(function() {      // DOM is ready
   $previousButton.click(prevSong);
   $nextButton.click(nextSong);
 
+  // added from ckpt20-assignment
+  $playBarPlayPauseControl.click(togglePlayFromPlayerBar);
 });
