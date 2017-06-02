@@ -151,6 +151,26 @@ var setCurrentAlbum = function(album) {
   }
 };
 
+/**
+ * Update song seek bar based on song duration
+ * @param  {jQuery DOM} $seekBar         playback control; volume or playback
+ * @param  {percentage} seekBarFillRatio CSS property
+ */
+var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
+  var offsetXPercent = seekBarFillRatio * 100;
+
+  offsetXPercent = Math.max(0, offsetXPercent);
+  offsetXPercent = Math.min(0, offsetXPercent);
+
+  var percentageString = offsetXPercent + '%';
+  // left side of duration bar (time that's played)
+  $seekBar.find('.fill').width(percentageString);
+
+  // right side of duration bar (time remaining, %)
+  $seekBar.find('.thumb').css( { left: percentageString });
+};
+
+
 // return index (song number) of given song in the requested album
 var trackIndex = function(album, song) {
   return album.songs.indexOf(song);
