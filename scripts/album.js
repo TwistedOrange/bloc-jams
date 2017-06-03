@@ -20,30 +20,21 @@ var createSongRow = function(songNumber, songName, songLength) {
       // user selected a new song to play
       if ( currentlyPlayingSongNumber === null ) {
         // new song to play
-        //currentlyPlayingSongNumber = songNumber;
-        $(this).html(pauseButtonTemplate);
         setSong(songNumber);
-
+        $(this).html(pauseButtonTemplate);
         currentSoundFile.play();
 
       } else if (currentlyPlayingSongNumber !== songNumber ) {
-        // new song is now playing, show pause icon
-        setSong(songNumber);
-        currentSoundFile.play();
 
-        //--$('.song-item-number').eq(currentlyPlayingSongNumber - 1).html(currentlyPlayingSongNumber);
-        //    equiv to using new getSongNumberCell()
-        //
         var $restoreSongNumber = getSongNumberCell(currentlyPlayingSongNumber);
         $restoreSongNumber.html(currentlyPlayingSongNumber);
 
         // replace song # of selected song with pause icon
         $(this).html(pauseButtonTemplate);
 
-        // update active song #
-        //--currentlyPlayingSongNumber = songNumber;
-        //--currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+        // new song is now playing, show pause icon
         setSong(songNumber);
+        currentSoundFile.play();
 
         // update song bar to reflect song status
         updatePlayerBarSong();
@@ -56,14 +47,12 @@ var createSongRow = function(songNumber, songName, songLength) {
           // update player bar to reflect song status
           $(this).html(pauseButtonTemplate);
           $('.main-controls .play-pause').html(playerBarPlayButton);
-          //currentSoundFile.play();
+          currentSoundFile.play();
         } else {
           $(this).html(playButtonTemplate);
           $('.main-controls .play-pause').html(playerBarPauseButton);
-          //currentSoundFile.pause();
+          currentSoundFile.pause();
         }
-        currentSoundFile.togglePlay();
-
       } // paused current song
 
       // update bottom player bar with current song info & status
