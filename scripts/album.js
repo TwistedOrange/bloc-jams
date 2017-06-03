@@ -20,24 +20,22 @@ var createSongRow = function(songNumber, songName, songLength) {
       // user selected a new song to play
       if ( currentlyPlayingSongNumber === null ) {
         // new song to play
-        currentlyPlayingSongNumber = songNumber;
-        $(this).html(pauseButtonTemplate);
         setSong(songNumber);
+        $(this).html(pauseButtonTemplate);
         currentSoundFile.play();
 
       } else if (currentlyPlayingSongNumber !== songNumber ) {
         // new song is now playing, show pause icon
-        setSong(songNumber);
-        currentSoundFile.play();
 
-        // replace pause icon for currently playing song with its song #
-        //$('.song-item-number').eq(currentlyPlayingSongNumber-1).html(currentlyPlayingSongNumber);
+        var $restoreSongNumber = getSongNumberCell(currentlyPlayingSongNumber);
+        $restoreSongNumber.html(currentlyPlayingSongNumber);
 
         // replace song # of selected song with pause icon
         $(this).html(pauseButtonTemplate);
 
-        // update active song #
-        currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+        // new song is now playing, show pause icon
+        setSong(songNumber);
+        currentSoundFile.play();
 
         // update song bar to reflect song status
         updatePlayerBarSong();
@@ -158,6 +156,7 @@ var setCurrentAlbum = function(album) {
  */
 var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
   var offsetXPercent = seekBarFillRatio * 100;
+  offsetXPercent = offsetXPercent.parseInt();       // whole # only
 
   // confirm range between 0 - 100
   offsetXPercent = Math.max(0, offsetXPercent);
@@ -186,6 +185,29 @@ var setupSeekBars = function() {
     var seekBarFillRatio = offsetX / barWidth;
 
     updateSeekPercentage( $(this), seekBarFillRatio);
+  });
+
+  // handle dragging thumb circle on seekbar w/ mouse events
+
+  // add event listener for mousedown on thumb portion of seekbar
+  $seekBars.find('.thumb').mousedown(function(event) {
+    // #8
+    var $seekBar = $(this).parent();
+
+    $(document).bind('mousemove.thumb', function(event) {
+        var offsetX = event.pageX - $seekBar.offset().left;
+        var barWidth = $seekBar.width();
+        var seekBarFillRatio = offsetX / barWidth;
+
+        updateSeekPercentage($seekBar, seekBarFillRatio);
+    });
+
+    // #10
+    $(document).bind('mouseup.thumb', function() {
+        $(document).unbind('mousemove.thumb');
+        $(document).unbind('mouseup.thumb');
+    });
+
   });
 };
 
