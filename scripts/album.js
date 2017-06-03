@@ -24,6 +24,9 @@ var createSongRow = function(songNumber, songName, songLength) {
         $(this).html(pauseButtonTemplate);
         currentSoundFile.play();
 
+        // sync song duration seek-bar to current song
+        updateSeekBarWhileSongPlays();
+
       } else if (currentlyPlayingSongNumber !== songNumber ) {
         // new song is now playing, show pause icon
 
@@ -37,6 +40,9 @@ var createSongRow = function(songNumber, songName, songLength) {
         setSong(songNumber);
         currentSoundFile.play();
 
+        // sync song duration seek-bar to current song
+        updateSeekBarWhileSongPlays();
+
         // update song bar to reflect song status
         updatePlayerBarSong();
 
@@ -47,6 +53,9 @@ var createSongRow = function(songNumber, songName, songLength) {
           $(this).html(pauseButtonTemplate);
           $('.main-controls .play-pause').html(playerBarPlayButton);
           currentSoundFile.play();
+
+          // sync song duration seek-bar to current song
+          updateSeekBarWhileSongPlays();
         } else {
           $(this).html(playButtonTemplate);
           $('.main-controls .play-pause').html(playerBarPauseButton);
@@ -148,6 +157,23 @@ var setCurrentAlbum = function(album) {
     $albumSongList.append($newRow);
   }
 };
+
+// Update position of seekbar when song is playing to match duration
+var updateSeekBarWhileSongPlays = function() {
+  if ( currentSoundFile ) {
+    // tie Buzz event 'timeupdate' to current song as it's playing
+    currentSoundFile.bind('timeupdate', function(event) {
+      // Use Buzz library getTime() and getDuration() of active song (returns seconds)
+      // http://buzz.jaysalvat.com/documentation/sound/
+
+      var seekBarFillRatio = this.getTime() / this.getDuration();
+      var $seekBar = $('.seek-control .seek-bar');
+
+      updateSeekPercentage($seekBar, seekBarFillRatio);
+    });
+  }
+};
+
 
 /**
  * Update song seek bar based on song duration
@@ -259,6 +285,10 @@ var nextSong = function() {
 
   setSong(songIndexInAlbum + 1);
   currentSoundFile.play();
+
+  // sync song duration seek-bar to current song
+  updateSeekBarWhileSongPlays();
+
   updatePlayerBarSong();
 
   var $nextSong = getSongNumberCell(currentlyPlayingSongNumber);
@@ -281,6 +311,10 @@ var prevSong = function() {
 
   setSong(songIndexInAlbum + 1);
   currentSoundFile.play();
+
+  // sync song duration seek-bar to current song
+  updateSeekBarWhileSongPlays();
+
   updatePlayerBarSong();
 
   // change to new/next song in album
