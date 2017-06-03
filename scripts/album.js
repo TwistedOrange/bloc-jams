@@ -13,51 +13,40 @@ var createSongRow = function(songNumber, songName, songLength) {
     // wrap template in jQuery object for later use
     var $row = $(template);
 
-    // replaces standalone clickHandler()
     var clickHandler = function() {
       var songNumber = parseInt($(this).attr('data-song-number'));
 
-      // user selected a new song to play
+      if (currentlyPlayingSongNumber !== null) {
+          // replace song number for current song since new song is now playing song
+          var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+
+          currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+          currentlyPlayingCell.html(currentlyPlayingSongNumber);
+      }
+
+      // only seen on first load, no song has ever been played
       if ( currentlyPlayingSongNumber === null ) {
-        // new song to play
-        setSong(songNumber);
-        $(this).html(pauseButtonTemplate);
-        currentSoundFile.play();
-
-      } else if (currentlyPlayingSongNumber !== songNumber ) {
-
-        var $restoreSongNumber = getSongNumberCell(currentlyPlayingSongNumber);
-        $restoreSongNumber.html(currentlyPlayingSongNumber);
-
-        // replace song # of selected song with pause icon
-        $(this).html(pauseButtonTemplate);
-
-        // new song is now playing, show pause icon
-        setSong(songNumber);
-        currentSoundFile.play();
-
-        // update song bar to reflect song status
-        updatePlayerBarSong();
-
-      } else if ( currentlyPlayingSongNumber === songNumber ) {
-        // user paused previously active song
-        $(this).html(songNumber);             // restore song #
-
-        if ( currentSoundFile.isPaused() ) {
-          // update player bar to reflect song status
-          $(this).html(pauseButtonTemplate);
-          $('.main-controls .play-pause').html(playerBarPlayButton);
-          currentSoundFile.play();
+        console.log('no song ever played')
+      }
+     if (currentlyPlayingSongNumber !== songNumber) {
+         // new song, go from play to pause
+         setSong(songNumber);
+         currentSoundFile.play();
+         $(this).html(pauseButtonTemplate);
+         currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+         updatePlayerBarSong();
+     } else if (currentlyPlayingSongNumber === songNumber) {
+        if (currentSoundFile.isPaused()) {
+            $(this).html(pauseButtonTemplate);
+            $('.main-controls .play-pause').html(playerBarPauseButton);
+            currentSoundFile.play();
         } else {
-          $(this).html(playButtonTemplate);
-          $('.main-controls .play-pause').html(playerBarPauseButton);
-          currentSoundFile.pause();
+            $(this).html(playButtonTemplate);
+            $('.main-controls .play-pause').html(playerBarPlayButton);
+            currentSoundFile.pause();
         }
-      } // paused current song
-
-      // update bottom player bar with current song info & status
-      updatePlayerBarSong();
-    };
+      }
+     };
 
     // Replaces 'mouseover' event handler
     //    swap out song number with play/pause icon
@@ -92,6 +81,16 @@ var createSongRow = function(songNumber, songName, songLength) {
 
     // return the new row with attached click handlers
     return $row;
+};
+
+// Allow Play icon to be used to play first song on initial load only.
+//   Mimics the nextSong() functionality where on page load it also
+//   plays the first song even though no previous song selected.
+var playFirstSongPlayIcon = function() {
+ // play song #1
+ if ( currentlyPlayingSongNumber === null ) {
+   nextSong();
+ }
 };
 
 
@@ -151,6 +150,7 @@ var setCurrentAlbum = function(album) {
 };
 
 // return index (song number) of given song in the requested album
+//   -- returns -1 if no song ever played (as in first page load) = null
 var trackIndex = function(album, song) {
   return album.songs.indexOf(song);
 };
@@ -183,7 +183,6 @@ var nextSong = function() {
   songIndexInAlbum++;
 
   // jump to first song if at last song
-  //songIndexInAlbum >= currentAlbum.songs.length ? songIndexInAlbum = 0 : songIndexInAlbum++;
   if ( songIndexInAlbum >= currentAlbum.songs.length ) {
     songIndexInAlbum = 0;
   }
@@ -238,6 +237,7 @@ var setVolume = function(level) {
 };
 
 
+// Start/Pause song from lower player bar controls
 var togglePlayFromPlayerBar = function() {
   var $playingSongCell = getSongNumberCell(currentlyPlayingSongNumber);
 
@@ -270,7 +270,7 @@ var currentVolume = 80;
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
 var $playBarPlayPauseControl = $('.main-controls .play-pause');
-
+var $playBarPlayIcon = $('.play-pause .ion-play');
 
 $(function() {      // DOM is ready
   setCurrentAlbum(albumPicasso);
@@ -279,4 +279,6 @@ $(function() {      // DOM is ready
   $nextButton.click(nextSong);
 
   $playBarPlayPauseControl.click(togglePlayFromPlayerBar);
+
+  $playBarPlayIcon.click(playFirstSongPlayIcon);
 });
