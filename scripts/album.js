@@ -22,12 +22,12 @@ var createSongRow = function(songNumber, songName, songLength) {
         // new song to play
         setSong(songNumber);
         $(this).html(pauseButtonTemplate);
+        $('.main-controls .play-pause').html(playerBarPauseButton);
         currentSoundFile.play();
 
       } else if (currentlyPlayingSongNumber !== songNumber ) {
         //--$('.song-item-number').eq(currentlyPlayingSongNumber - 1).html(currentlyPlayingSongNumber);
         //    equiv to using new getSongNumberCell()
-        //
         var $restoreSongNumber = getSongNumberCell(currentlyPlayingSongNumber);
         $restoreSongNumber.html(currentlyPlayingSongNumber);
 
@@ -48,18 +48,18 @@ var createSongRow = function(songNumber, songName, songLength) {
         if ( currentSoundFile.isPaused() ) {
           // update player bar to reflect song status
           $(this).html(pauseButtonTemplate);
-          $('.main-controls .play-pause').html(playerBarPlayButton);
+          $('.main-controls .play-pause').html(playerBarPauseButton);
           currentSoundFile.play();
         } else {
           $(this).html(playButtonTemplate);
-          $('.main-controls .play-pause').html(playerBarPauseButton);
+          $('.main-controls .play-pause').html(playerBarPlayButton);
           currentSoundFile.pause();
         }
 
       } // paused current song
 
       // update bottom player bar with current song info & status
-      updatePlayerBarSong();
+      //updatePlayerBarSong();
     };
 
     // Replaces 'mouseover' event handler
@@ -169,14 +169,10 @@ var updatePlayerBarSong = function() {
 
     // replicate song state on lower player bar
     $('.main-controls .play-pause').html(playerBarPauseButton);
+
   }
 
   $('h2.artist-name').text(currentAlbum.artist);
-
-  if ( currentlyPlayingSongNumber === null ) {
-    // no song playing, remove the song title from player bar
-    //$('h2.song-name').html('');
-  }
 };
 
 // jump to next song in album to play (update player bar & album list)
