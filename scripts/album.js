@@ -20,26 +20,30 @@ var createSongRow = function(songNumber, songName, songLength) {
       // user selected a new song to play
       if ( currentlyPlayingSongNumber === null ) {
         // new song to play
-        //currentlyPlayingSongNumber = songNumber;
-        $(this).html(pauseButtonTemplate);
         setSong(songNumber);
-
+        $(this).html(pauseButtonTemplate);
         currentSoundFile.play();
 
       } else if (currentlyPlayingSongNumber !== songNumber ) {
-        // new song is now playing, show pause icon
-        setSong(songNumber);
-        currentSoundFile.play();
+        //--$('.song-item-number').eq(currentlyPlayingSongNumber - 1).html(currentlyPlayingSongNumber);
+        //    equiv to using new getSongNumberCell()
+        //
+        var $restoreSongNumber = getSongNumberCell(currentlyPlayingSongNumber);
+        $restoreSongNumber.html(currentlyPlayingSongNumber);
 
         // replace song # of selected song with pause icon
         $(this).html(pauseButtonTemplate);
+
+        // new song is now playing, show pause icon
+        setSong(songNumber);
+        currentSoundFile.play();
 
         // update song bar to reflect song status
         updatePlayerBarSong();
 
       } else if ( currentlyPlayingSongNumber === songNumber ) {
         // user paused previously active song
-        //--$(this).html(songNumber);             // restore song #
+        $(this).html(songNumber);             // restore song #
 
         if ( currentSoundFile.isPaused() ) {
           // update player bar to reflect song status
@@ -51,6 +55,7 @@ var createSongRow = function(songNumber, songName, songLength) {
           $('.main-controls .play-pause').html(playerBarPauseButton);
           currentSoundFile.pause();
         }
+
       } // paused current song
 
       // update bottom player bar with current song info & status
@@ -94,7 +99,7 @@ var createSongRow = function(songNumber, songName, songLength) {
 
 
 /**
- * setSong() - fetch song object for selected song to play
+ * setSong() - update song object for selected song to play
  * @param  {string} songNumber [displayed song number]
  * @return {[n/a]}
  */
@@ -104,7 +109,7 @@ var setSong = function(songNumber) {
     currentSoundFile.stop();
   }
 
-  currentlyPlayingSongNumber = parseInt(songNumber);
+  currentlyPlayingSongNumber = songNumber;
   currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
 
   currentSoundFile = new buzz.sound(currentSongFromAlbum.audioUrl, {
