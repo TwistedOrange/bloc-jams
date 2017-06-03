@@ -210,6 +210,9 @@ var setupSeekBars = function() {
     // new width of seek bar after adjusted by clicked
     var seekBarFillRatio = offsetX / barWidth;
 
+    // Differentiate between seek-bar and volume control bar
+    //
+    //
     updateSeekPercentage( $(this), seekBarFillRatio);
   });
 
@@ -326,6 +329,16 @@ var prevSong = function() {
   $nextSong.html(pauseButtonTemplate);
   $previousSong.html(recentSongPlayed);
 };
+
+
+// Update to new song location (time) when click seek-bar
+var seek = function(time) {
+  if ( currentSoundFile ) {
+    // Buzz library setTime() - set playback positon in seconds
+    currentSoundFile.setTime(time);
+  }
+};
+
 
 var setVolume = function(level) {
   if ( currentSoundFile ) {
