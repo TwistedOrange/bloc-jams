@@ -156,7 +156,7 @@ var setCurrentAlbum = function(album) {
  */
 var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
   var offsetXPercent = seekBarFillRatio * 100;
-  offsetXPercent = offsetXPercent.parseInt();       // whole # only
+  offsetXPercent = parseInt(offsetXPercent);   // whole # only
 
   // confirm range between 0 - 100
   offsetXPercent = Math.max(0, offsetXPercent);
@@ -189,11 +189,14 @@ var setupSeekBars = function() {
 
   // handle dragging thumb circle on seekbar w/ mouse events
 
-  // add event listener for mousedown on thumb portion of seekbar
+  // Add event listener for mousedown on thumb portion of seekbar
   $seekBars.find('.thumb').mousedown(function(event) {
-    // #8
+    // fetch the .thumb node clicked to know which .seek-bar it belongs to
     var $seekBar = $(this).parent();
 
+    // 'bind' is similar to addEventListener(), supports namespaces to be
+    //    more specific as to where the event is used.
+    //    (name could of been 'mousemove.thumbOnSeekBar', .thumb not significant)
     $(document).bind('mousemove.thumb', function(event) {
         var offsetX = event.pageX - $seekBar.offset().left;
         var barWidth = $seekBar.width();
@@ -202,8 +205,11 @@ var setupSeekBars = function() {
         updateSeekPercentage($seekBar, seekBarFillRatio);
     });
 
-    // #10
+    // Attach mousemove() event to $(document) (the entire page) to ensure
+    //    can drag the thumb after mousing down, even when mouse leaves seek bar.
+    //    This makes for a better UX since the active area is broader.
     $(document).bind('mouseup.thumb', function() {
+        // Remove previous events tied to this HTML element when mouse released
         $(document).unbind('mousemove.thumb');
         $(document).unbind('mouseup.thumb');
     });
