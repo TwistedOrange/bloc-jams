@@ -24,10 +24,6 @@ var createSongRow = function(songNumber, songName, songLength) {
           currentlyPlayingCell.html(currentlyPlayingSongNumber);
       }
 
-      // only seen on first load, no song has ever been played
-      if ( currentlyPlayingSongNumber === null ) {
-        console.log('no song ever played')
-      }
      if (currentlyPlayingSongNumber !== songNumber) {
          // new song, go from play to pause
          setSong(songNumber);
@@ -81,16 +77,6 @@ var createSongRow = function(songNumber, songName, songLength) {
 
     // return the new row with attached click handlers
     return $row;
-};
-
-// Allow Play icon to be used to play first song on initial load only.
-//   Mimics the nextSong() functionality where on page load it also
-//   plays the first song even though no previous song selected.
-var playFirstSongPlayIcon = function() {
- // play song #1
- if ( currentlyPlayingSongNumber === null ) {
-   nextSong();
- }
 };
 
 
@@ -244,15 +230,19 @@ var togglePlayFromPlayerBar = function() {
   if ( currentSoundFile ) {
     if ( currentSoundFile.isPaused() ) {
       //console.log('song is paused, change player bar icon from Pause to Play');
-      $playingSongCell.html(playButtonTemplate);
-      $(this).html(playerBarPlayButton);
-    } else {
-      //console.log('song is playing, change player bar icon from Play to Pause');
       $playingSongCell.html(pauseButtonTemplate);
       $(this).html(playerBarPauseButton);
+      currentSoundFile.play();
+      //console.log('is NOT paused');
+    } else {
+      //console.log('song is playing, change player bar icon from Play to Pause');
+      $playingSongCell.html(playButtonTemplate);
+      $(this).html(playerBarPlayButton);
+      currentSoundFile.pause();
+      //console.log('is paused');
     }
-
-    currentSoundFile.togglePlay();
+  } else {        // let Play icon start song 1 when no previous song
+    nextSong();
   }
 };
 
@@ -279,6 +269,4 @@ $(function() {      // DOM is ready
   $nextButton.click(nextSong);
 
   $playBarPlayPauseControl.click(togglePlayFromPlayerBar);
-
-  $playBarPlayIcon.click(playFirstSongPlayIcon);
 });
