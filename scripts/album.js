@@ -17,11 +17,12 @@ var createSongRow = function(songNumber, songName, songLength) {
     var clickHandler = function() {
       var songNumber = parseInt($(this).attr('data-song-number'));
 
-      // user selected a new song to play
+      // user selected new song to play
       if ( currentlyPlayingSongNumber === null ) {
         // new song to play
         setSong(songNumber);
         $(this).html(pauseButtonTemplate);
+        $('.main-controls .play-pause').html(playerBarPauseButton);
         currentSoundFile.play();
 
         // sync song duration seek-bar to current song
@@ -31,6 +32,7 @@ var createSongRow = function(songNumber, songName, songLength) {
         // new song is now playing, show pause icon
 
         var $restoreSongNumber = getSongNumberCell(currentlyPlayingSongNumber);
+        $restoreSongNumber.html(currentlyPlayingSongNumber);
         $restoreSongNumber.html(currentlyPlayingSongNumber);
 
         // replace song # of selected song with pause icon
@@ -47,24 +49,23 @@ var createSongRow = function(songNumber, songName, songLength) {
         updatePlayerBarSong();
 
       } else if ( currentlyPlayingSongNumber === songNumber ) {
+        $(this).html(pauseButtonTemplate);
+
         // user paused previously active song
         if ( currentSoundFile.isPaused() ) {
           // update player bar to reflect song status
           $(this).html(pauseButtonTemplate);
-          $('.main-controls .play-pause').html(playerBarPlayButton);
+          $('.main-controls .play-pause').html(playerBarPauseButton);
           currentSoundFile.play();
 
           // sync song duration seek-bar to current song
           updateSeekBarWhileSongPlays();
         } else {
           $(this).html(playButtonTemplate);
-          $('.main-controls .play-pause').html(playerBarPauseButton);
+          $('.main-controls .play-pause').html(playerBarP;auButton);
           currentSoundFile.pause();
         }
       } // paused current song
-
-      // update bottom player bar with current song info & status
-      updatePlayerBarSong();
     };
 
     // Replaces 'mouseover' event handler
@@ -75,7 +76,6 @@ var createSongRow = function(songNumber, songName, songLength) {
       var songNumber = parseInt($songCell.attr('data-song-number'));
 
       // If current song not playing, swap out song # for Play icon
-
       if ( songNumber !== currentlyPlayingSongNumber) {
         $songCell.html(playButtonTemplate);
       }
@@ -100,7 +100,7 @@ var createSongRow = function(songNumber, songName, songLength) {
 
     // return the new row with attached click handlers
     return $row;
-};
+};   // end clickHandler()
 
 
 /**
@@ -114,7 +114,7 @@ var setSong = function(songNumber) {
     currentSoundFile.stop();
   }
 
-  currentlyPlayingSongNumber = parseInt(songNumber);
+  currentlyPlayingSongNumber = songNumber;
   currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
 
   currentSoundFile = new buzz.sound(currentSongFromAlbum.audioUrl, {
@@ -379,8 +379,7 @@ var currentVolume = 80;
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
-// added from ckpt20-assignment
-var $playBarPlayPauseControl = $('.main-controls .play-pause');
+
 
 $(function() {      // DOM is ready
   setCurrentAlbum(albumPicasso);
@@ -388,7 +387,4 @@ $(function() {      // DOM is ready
 
   $previousButton.click(prevSong);
   $nextButton.click(nextSong);
-
-  // added from ckpt20-assignment
-  $playBarPlayPauseControl.click(togglePlayFromPlayerBar);
 });
