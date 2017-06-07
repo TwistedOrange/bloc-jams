@@ -250,17 +250,20 @@ var setupSeekBars = function() {
     // new width of seek bar after adjusted by clicked
     var seekBarFillRatio = offsetX / barWidth;
 
-    // // Which seek-bar was clicked? Vol or duration.
-    if ( $seekBars.parent().attr('class') === 'control-group volume') {
-      console.log('clicked vol control');
+    // Which seek-bar was clicked? Vol or duration.
+    if ( $(this).parent().hasClass('volume') ) {
+      setVolume( seekBarFillRatio * 100 );
     } else {
-      console.log('clicked time duration control');
+      // song length in seconds * new seek-bar length
+      seek(seekBarFillRatio * currentSoundFile.getDuration());
     }
     updateSeekPercentage( $(this), seekBarFillRatio );
+
   });
 
+  //------
   // handle dragging thumb circle on seekbar w/ mouse events
-
+  //------
   // Add event listener for mousedown on thumb portion of seekbar
   $seekBars.find('.thumb').mousedown(function(event) {
     // fetch the .thumb node clicked to know which .seek-bar it belongs to
@@ -422,7 +425,7 @@ var playerBarPauseButton = '<span class="ion-pause"></span>';
 var currentlyPlayingSongNumber = null;
 var currentAlbum = null;
 var currentSongFromAlbum = null;      // current song's object
-var currentSoundFile = null;          // song sound file object
+var currentSoundFile = null;          // song sound file objects
 var currentVolume = 80;
 
 var $previousButton = $('.main-controls .previous');
