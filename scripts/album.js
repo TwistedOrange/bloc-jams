@@ -7,72 +7,16 @@ var createSongRow = function(songNumber, songName, songLength) {
     + ' <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
     + ' <td class="song-item-title">' + songName + '</td>'
     + ' <td class="song-item-duration">' + songLength + '</td>'
-    + '</tr>'
-    ;
+    + '</tr>';
 
-    // wrap template in jQuery object for later use
-    var $row = $(template);
-
-    // replaces standalone clickHandler()
-    var clickHandlerOLD = function() {
-      var songNumber = parseInt($(this).attr('data-song-number'));
-
-      // user selected new song to play
-      if ( currentlyPlayingSongNumber === null ) {
-        // new song to play
-        setSong(songNumber);
-        $(this).html(pauseButtonTemplate);
-        $('.main-controls .play-pause').html(playerBarPauseButton);
-        currentSoundFile.play();
-
-        // sync song duration seek-bar control to current song
-        updateSeekBarWhileSongPlays();
-
-      } else if (currentlyPlayingSongNumber !== songNumber ) {
-        // new song is now playing, show pause icon
-
-        var $restoreSongNumber = getSongNumberCell(currentlyPlayingSongNumber);
-        $restoreSongNumber.html(currentlyPlayingSongNumber);
-
-        // replace song # of selected song with pause icon
-        $(this).html(pauseButtonTemplate);
-
-        // new song is now playing, show pause icon
-        setSong(songNumber);
-        currentSoundFile.play();
-
-        // sync song duration seek-bar control to current song
-        updateSeekBarWhileSongPlays();
-
-        // update song bar to reflect song status
-        updatePlayerBarSong();
-
-      } else if ( currentlyPlayingSongNumber === songNumber ) {
-        $(this).html(pauseButtonTemplate);
-
-        // user paused previously active song
-        if ( currentSoundFile.isPaused() ) {
-          // update player bar to reflect song status
-          $(this).html(pauseButtonTemplate);
-          $('.main-controls .play-pause').html(playerBarPauseButton);
-          currentSoundFile.play();
-
-          // sync song duration seek-bar control to current song
-          updateSeekBarWhileSongPlays();
-        } else {
-          $(this).html(playButtonTemplate);
-          $('.main-controls .play-pause').html(playerBarPlayButton);
-          currentSoundFile.pause();
-        }
-      } // paused current song
-    };
-
+  // wrap template in jQuery object for later use
+  var $row = $(template);
 
   var clickHandler = function() {
     var songNumber = parseInt($(this).attr('data-song-number'));
 
     if (currentlyPlayingSongNumber !== null) {
-        // replace song number for current song since new song is now playing song
+        // replace song number for current/previous song since new song is now playing
         var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
 
         currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
@@ -80,7 +24,7 @@ var createSongRow = function(songNumber, songName, songLength) {
     }
 
    if (currentlyPlayingSongNumber !== songNumber) {
-       // new song, go from play to pause
+       // new song, go from pause to play
        setSong(songNumber);
        currentSoundFile.play();
 
@@ -89,6 +33,16 @@ var createSongRow = function(songNumber, songName, songLength) {
 
        $(this).html(pauseButtonTemplate);
        currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+
+      // grab the vol control seek-bar and thumb adjustment knob
+      //  class 'seek-bar' is parent to fill and thumb classes
+       var $volFill = $('volume .fill');
+       var $volThumb = $('volume .thumb');
+
+       // chane width of volume seek-bar to new volume
+       $volFill.width(currentVolume + '%');
+       $volThumb.css('left', currentVolume + '%');
+
        updatePlayerBarSong();
    } else if (currentlyPlayingSongNumber === songNumber) {
       if (currentSoundFile.isPaused()) {
