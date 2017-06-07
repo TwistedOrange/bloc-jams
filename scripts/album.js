@@ -39,11 +39,12 @@ var createSongRow = function(songNumber, songName, songLength) {
        var $volFill = $('volume .fill');
        var $volThumb = $('volume .thumb');
 
-       // chane width of volume seek-bar to new volume
+       // change width of volume seek-bar to new volume
        $volFill.width(currentVolume + '%');
        $volThumb.css('left', currentVolume + '%');
 
        updatePlayerBarSong();
+
    } else if (currentlyPlayingSongNumber === songNumber) {
       if (currentSoundFile.isPaused()) {
           $(this).html(pauseButtonTemplate);
@@ -301,7 +302,25 @@ var nextSong = function() {
 
   $nextSong.html(pauseButtonTemplate);
   $previousSong.html(recentSongPlayed);
+
+  // display song length of new song under duration seek-bar
+  //displaySongLength();
 };
+
+
+// Update time (mm:ss) played in duration seek-bar
+var displayTimeSongPlayed = function() {
+  // total # of seconds for this song
+  //var totalSeconds = currentSoundFile.getDuration();
+
+  var playedSeconds = currentSoundFile.getTime();
+
+  $(document).find('.current-time').text(Math.round(playedSeconds));
+
+  // end time in minutes/sec for current song doesn't change
+  $(document).find('.total-time').text(currentSongFromAlbum.length);
+};
+
 
 var prevSong = function() {
   var songIndexInAlbum = trackIndex(currentAlbum, currentSongFromAlbum);
