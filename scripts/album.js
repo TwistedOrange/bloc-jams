@@ -307,21 +307,6 @@ var nextSong = function() {
   //displaySongLength();
 };
 
-
-// Update time (mm:ss) played in duration seek-bar
-var displayTimeSongPlayed = function() {
-  // total # of seconds for this song
-  //var totalSeconds = currentSoundFile.getDuration();
-
-  var playedSeconds = currentSoundFile.getTime();
-
-  $(document).find('.current-time').text(Math.round(playedSeconds));
-
-  // end time in minutes/sec for current song doesn't change
-  $(document).find('.total-time').text(currentSongFromAlbum.length);
-};
-
-
 var prevSong = function() {
   var songIndexInAlbum = trackIndex(currentAlbum, currentSongFromAlbum);
   songIndexInAlbum--;
@@ -358,6 +343,36 @@ var seek = function(time) {
     // Buzz library setTime() - set playback positon in seconds
     currentSoundFile.setTime(time);
   }
+};
+
+
+// DEB VERSION
+// Update time (mm:ss) played in duration seek-bar
+var displayTimeSongPlayed = function() {
+  // total # of seconds for this song
+  //var totalSeconds = currentSoundFile.getDuration();
+
+  var playedSeconds = currentSoundFile.getTime();
+
+  $(document).find('.current-time').text(Math.round(playedSeconds));
+
+  // end time in minutes/sec for current song doesn't change
+  $(document).find('.total-time').text(currentSongFromAlbum.length);
+};
+
+//** ASSIGNMENT NEW CODE
+//** updates songs time played in seek-bar as it plays
+var setCurrentTimeInPlayerBar = function(currentTime) {
+  var $curTimeField = $(document).find('.current-time');
+
+};
+
+var setTotalTimeInPlayerBar = function(totalTime) {
+
+};
+
+var filterTimeCode = function(timeInSeconds) {
+
 };
 
 
