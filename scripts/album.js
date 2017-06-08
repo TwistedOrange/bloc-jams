@@ -164,6 +164,8 @@ var updateSeekBarWhileSongPlays = function() {
       var $seekBar = $('.seek-control .seek-bar');
 
       updateSeekPercentage($seekBar, seekBarFillRatio);
+
+      setCurrentTimeInPlayerBar(currentSoundFile.getTime());
     });
   }
 };
@@ -266,9 +268,10 @@ var updatePlayerBarSong = function() {
 
     // replicate song state on lower player bar
     $('.main-controls .play-pause').html(playerBarPauseButton);
-  } else {
-    console.log('update player bar to show Play icon');
   }
+
+  // set max song length in seek-bar - NOT WORK IF SONG PAUSED, sends "--"
+  setTotalTimeInPlayerBar(currentSoundFile.getDuration());
 
   $('h2.artist-name').text(currentAlbum.artist);
 };
@@ -346,7 +349,7 @@ var seek = function(time) {
 };
 
 
-// DEB VERSION
+// DEB VERSION - not finished
 // Update time (mm:ss) played in duration seek-bar
 var displayTimeSongPlayed = function() {
   // total # of seconds for this song
@@ -363,15 +366,32 @@ var displayTimeSongPlayed = function() {
 //** ASSIGNMENT NEW CODE
 //** updates songs time played in seek-bar as it plays
 var setCurrentTimeInPlayerBar = function(currentTime) {
-  var $curTimeField = $(document).find('.current-time');
+  var timeFormat = buzz.toTimer(currentTime);
 
+  $(document).find('.current-time').text(timeFormat);
 };
 
+//** Set text of element with .total-time class to length of song
 var setTotalTimeInPlayerBar = function(totalTime) {
+  $(document).find('.total-time').text(totalTime);
 
 };
 
+//** Reformat seconds to "m:ss" to display in duration seek-bar
 var filterTimeCode = function(timeInSeconds) {
+  var seconds = parseFloat(timeInSeconds);      // string to float
+
+  // Buzz library provides this functionality, returns mm:ss
+  var timeFormat = buzz.toTimer(currentSoundFile.getTime()).slice(1);
+
+  if ( seconds < 60 ) {
+    return '0:' + seconds;
+  } else if ( seconds === 60 ) {
+    return '1:00';
+  }
+
+  // format song length > 60 seconds as m:ss
+  return Math.floor(seconds / 60) + ':' + 99;
 
 };
 
