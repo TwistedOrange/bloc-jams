@@ -266,8 +266,6 @@ var updatePlayerBarSong = function() {
 
     // replicate song state on lower player bar
     $('.main-controls .play-pause').html(playerBarPauseButton);
-  } else {
-    console.log('update player bar to show Play icon');
   }
 
   $('h2.artist-name').text(currentAlbum.artist);
