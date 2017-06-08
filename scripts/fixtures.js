@@ -1,4 +1,4 @@
-var albumPicasso = {
+var albumPicasso_OLD = {
   title: 'The Colors',
   artist: 'Pablo Picasso',
   label: 'Cubism',
@@ -14,6 +14,34 @@ var albumPicasso = {
 };
 
 
+<<<<<<< HEAD
+=======
+// source: http://www.barbneal.com/the-collection/tv-theme-songs/
+var albumPicasso = {
+  title: "70's TV Theme Songs",
+  artist: 'Various Artists',
+  label: '',
+  year: '1973-1978',
+  albumArtUrl: 'assets/images/album_covers/70s-tv.jpg',
+  // songs: [
+  //   { title: 'Green Acres', duration: '1:04', audioUrl: 'assets/music/grnacres' },
+  //   { title: 'Andy Griffith Show', duration: '0:50', audioUrl: 'assets/music/andgrif' },
+  //   { title: 'Cheers', duration: '1:03', audioUrl: 'assets/music/cheers' },
+  //   { title: "Gilligan's Island", duration: '1:31', audioUrl: 'assets/music/gilligan' },
+  //   { title: 'Batman', duration: '0:43', audioUrl: 'assets/music/batman' }
+  // ]
+  // change to seconds, added new field 'length' for actual song length to display
+  songs: [
+    { title: 'Green Acres', length: '1:04', duration: 161.71, audioUrl: 'assets/music/grnacres' },
+    { title: 'Andy Griffith Show', length: '0:50', duration: 103.95, audioUrl: 'assets/music/andgrif' },
+    { title: 'Cheers', length: '1:03', duration: 268.45, audioUrl: 'assets/music/cheers' },
+    { title: "Gilligan's Island", length: '1:31', duration: 153.45, audioUrl: 'assets/music/gilligan' },
+    { title: 'Batman', length: '0:43', duration: 374.22, audioUrl: 'assets/music/batman' }
+  ]
+};
+
+
+>>>>>>> ckpt21-seekbars
 // another example album
 var albumMarconi = {
   title: 'The Telephone',
