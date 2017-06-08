@@ -270,7 +270,7 @@ var updatePlayerBarSong = function() {
     $('.main-controls .play-pause').html(playerBarPauseButton);
   }
 
-  // set max song length in seek-bar - NOT WORK IF SONG PAUSED, sends "--"
+  // set max song length in seek-bar - NOT WORK IF SONG PAUSED, writes "--"
   setTotalTimeInPlayerBar(currentSoundFile.getDuration());
 
   $('h2.artist-name').text(currentAlbum.artist);
@@ -349,40 +349,18 @@ var seek = function(time) {
 };
 
 
-// DEB VERSION - not finished
-// Update time (mm:ss) played in duration seek-bar
-var displayTimeSongPlayed = function() {
-  // total # of seconds for this song
-  //var totalSeconds = currentSoundFile.getDuration();
-
-  var playedSeconds = currentSoundFile.getTime();
-
-  $(document).find('.current-time').text(Math.round(playedSeconds));
-
-  // end time in minutes/sec for current song doesn't change
-  $(document).find('.total-time').text(currentSongFromAlbum.length);
-};
-
 //** ASSIGNMENT NEW CODE
-//** updates songs time played in seek-bar as it plays
-var setCurrentTimeInPlayerBar = function(currentTime) {
-  var timeFormat = buzz.toTimer(currentTime);
-
-  $(document).find('.current-time').text(timeFormat);
-};
-
-//** Set text of element with .total-time class to length of song
-var setTotalTimeInPlayerBar = function(totalTime) {
-  $(document).find('.total-time').text(totalTime);
-
-};
 
 //** Reformat seconds to "m:ss" to display in duration seek-bar
 var filterTimeCode = function(timeInSeconds) {
   var seconds = parseFloat(timeInSeconds);      // string to float
 
-  // Buzz library provides this functionality, returns mm:ss
-  var timeFormat = buzz.toTimer(currentSoundFile.getTime()).slice(1);
+  // Buzz library provides this functionality, returns "mm:ss"
+  var timeFormat = buzz.toTimer(seconds).slice(1);
+
+  return timeFormat;
+
+  // other way w/o using buzz.toTimer() method
 
   if ( seconds < 60 ) {
     return '0:' + seconds;
@@ -393,6 +371,22 @@ var filterTimeCode = function(timeInSeconds) {
   // format song length > 60 seconds as m:ss
   return Math.floor(seconds / 60) + ':' + 99;
 
+};
+
+
+//** updates songs time played in seek-bar as it plays
+var setCurrentTimeInPlayerBar = function(currentTime) {
+  var timeFormat = buzz.toTimer(currentTime).slice(1);
+
+  $(document).find('.current-time').text(timeFormat);
+};
+
+//** Set text of element with .total-time class to length of song
+//**   assume totalTime is seconds?
+var setTotalTimeInPlayerBar = function(totalTime) {
+  var formatTime = filterTimeCode(totalTime);
+
+  $(document).find('.total-time').text(formatTime);
 };
 
 
