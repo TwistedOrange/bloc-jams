@@ -367,7 +367,7 @@ var filterTimeCode = function(timeInSeconds) {
   // other way w/o using buzz.toTimer() method
 
   if ( seconds < 60 ) {
-    return '0:' + seconds;
+    return '0:' + timeInSeconds * 60;
   } else if ( seconds === 60 ) {
     return '1:00';
   }

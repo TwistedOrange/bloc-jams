@@ -21,20 +21,12 @@ var albumPicasso = {
   label: '',
   year: '1973-1978',
   albumArtUrl: 'assets/images/album_covers/70s-tv.jpg',
-  // songs: [
-  //   { title: 'Green Acres', duration: '1:04', audioUrl: 'assets/music/grnacres' },
-  //   { title: 'Andy Griffith Show', duration: '0:50', audioUrl: 'assets/music/andgrif' },
-  //   { title: 'Cheers', duration: '1:03', audioUrl: 'assets/music/cheers' },
-  //   { title: "Gilligan's Island", duration: '1:31', audioUrl: 'assets/music/gilligan' },
-  //   { title: 'Batman', duration: '0:43', audioUrl: 'assets/music/batman' }
-  // ]
-  // change to seconds, added new field 'length' for actual song length to display
   songs: [
-    { title: 'Green Acres', duration: 161.71, audioUrl: 'assets/music/grnacres' },
-    { title: 'Andy Griffith Show', duration: 103.95, audioUrl: 'assets/music/andgrif' },
-    { title: 'Cheers', duration: 268.45, audioUrl: 'assets/music/cheers' },
-    { title: "Gilligan's Island", duration: 153.45, audioUrl: 'assets/music/gilligan' },
-    { title: 'Batman', duration: 374.22, audioUrl: 'assets/music/batman' }
+    { title: 'Green Acres', duration: 63.56, audioUrl: 'assets/music/grnacres' },
+    { title: 'Andy Griffith Show', duration: 50.22, audioUrl: 'assets/music/andgrif' },
+    { title: 'Cheers', duration: 62.56, audioUrl: 'assets/music/cheers' },
+    { title: "Gilligan's Island", duration: 90.91, audioUrl: 'assets/music/gilligan' },
+    { title: 'Batman', duration: 43.27, audioUrl: 'assets/music/batman' }
   ]
 };
 
