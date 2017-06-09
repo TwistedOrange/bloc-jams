@@ -271,7 +271,9 @@ var updatePlayerBarSong = function() {
   }
 
   // set max song length in seek-bar - NOT WORK IF SONG PAUSED, writes "--"
-  setTotalTimeInPlayerBar(currentSoundFile.getDuration());
+  //setTotalTimeInPlayerBar(currentSoundFile.getDuration());
+
+  setTotalTimeInPlayerBar(currentSongFromAlbum.duration);
 
   $('h2.artist-name').text(currentAlbum.artist);
 };
@@ -355,10 +357,12 @@ var seek = function(time) {
 var filterTimeCode = function(timeInSeconds) {
   var seconds = parseFloat(timeInSeconds);      // string to float
 
+  //console.log('filterTimeCode()', seconds);
+  //
   // Buzz library provides this functionality, returns "mm:ss"
-  var timeFormat = buzz.toTimer(seconds).slice(1);
-
-  return timeFormat;
+  // var timeFormat = buzz.toTimer(seconds).slice(1);
+  //
+  // return timeFormat;
 
   // other way w/o using buzz.toTimer() method
 
@@ -368,9 +372,11 @@ var filterTimeCode = function(timeInSeconds) {
     return '1:00';
   }
 
-  // format song length > 60 seconds as m:ss
-  return Math.floor(seconds / 60) + ':' + 99;
+  var fullMinutes = Math.floor(seconds / 60);
+  var fullSecs = parseInt(seconds) - fullMinutes * 60;
 
+  // format song length > 60 seconds as m:ss
+  return fullMinutes + ':' + fullSecs;
 };
 
 
@@ -378,6 +384,7 @@ var filterTimeCode = function(timeInSeconds) {
 var setCurrentTimeInPlayerBar = function(currentTime) {
   var timeFormat = buzz.toTimer(currentTime).slice(1);
 
+  //console.log('setCurrentTimeInPlayerBar()', timeFormat);
   $(document).find('.current-time').text(timeFormat);
 };
 
