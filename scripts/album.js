@@ -357,43 +357,28 @@ var seek = function(time) {
 var filterTimeCode = function(timeInSeconds) {
   var seconds = parseFloat(timeInSeconds);      // string to float
 
-  //console.log('filterTimeCode()', seconds);
-  //
-  // Buzz library provides this functionality, returns "mm:ss"
-  // var timeFormat = buzz.toTimer(seconds).slice(1);
-  //
-  // return timeFormat;
-
-  // other way w/o using buzz.toTimer() method
-
-  if ( seconds < 60 ) {
-    return '0:' + timeInSeconds * 60;
-  } else if ( seconds === 60 ) {
-    return '1:00';
+  if ( seconds < 60 ) {        // song < 60 seconds in length
+    return '0:' + Math.round(seconds);
   }
 
-  var fullMinutes = Math.floor(seconds / 60);
-  var fullSecs = parseInt(seconds) - fullMinutes * 60;
+  var showMinutes = Math.floor(seconds / 60);
+  var showSecs = parseInt(seconds) - showMinutes * 60;
 
   // format song length > 60 seconds as m:ss
-  return fullMinutes + ':' + fullSecs;
+  return showSecs > 10 ? showMinutes + ':' + showSecs :
+                         showMinutes + ':0' + showSecs;
 };
 
 
 //** updates songs time played in seek-bar as it plays
 var setCurrentTimeInPlayerBar = function(currentTime) {
-  var timeFormat = buzz.toTimer(currentTime).slice(1);
-
-  //console.log('setCurrentTimeInPlayerBar()', timeFormat);
-  $(document).find('.current-time').text(timeFormat);
+  $(document).find('.current-time').text( filterTimeCode(currentTime) );
 };
 
 //** Set text of element with .total-time class to length of song
 //**   assume totalTime is seconds?
 var setTotalTimeInPlayerBar = function(totalTime) {
-  var formatTime = filterTimeCode(totalTime);
-
-  $(document).find('.total-time').text(formatTime);
+  $(document).find('.total-time').text( filterTimeCode(totalTime) );
 };
 
 
