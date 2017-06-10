@@ -190,6 +190,9 @@ var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
 
   // right side of duration bar (time remaining, %)
   $seekBar.find('.thumb').css( { left: percentageString });
+
+  // add seek-bar fill style to fill time used portion
+  $('.seek-bar .fill').css('background-color', 'white');
 };
 
 
@@ -215,7 +218,6 @@ var setupSeekBars = function() {
       seek(seekBarFillRatio * currentSoundFile.getDuration());
     }
     updateSeekPercentage( $(this), seekBarFillRatio );
-
   });
 
   //------

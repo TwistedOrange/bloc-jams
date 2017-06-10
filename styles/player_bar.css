@@ -102,7 +102,7 @@
 }
 
 .seek-bar .fill {
-  background-color: white;
+  /*background-color: white;*/
   width: 36%;
   height: 0.25rem;
   border-radius: 2px;
@@ -113,7 +113,8 @@
   height: 0.5rem;
   width: 0.5rem;
   background-color: white;
-  left: 36%;
+  /* changed from 38% so onload it's at far left when no song selected */
+  left: 1%;
   top: 50%;
   /* #1 */
   margin-left: -0.25rem;
@@ -126,6 +127,11 @@
               height 100ms ease-in-out,
               margin-top 100ms ease-in-out,
               margin-left 100ms ease-in-out;
+}
+
+/* added to position vol thumb at some fixed vol level */
+.player-bar .volume .thumb {
+  left: 38%;
 }
 
 .seek-bar:hover .thumb {
