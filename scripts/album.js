@@ -210,7 +210,7 @@ var setupSeekBars = function() {
       setVolume( seekBarFillRatio * 100 );
     } else {
       // song length in seconds * new seek-bar length
-      seek(seekBarFillRatio * currentSoundFile.getDuration());
+      seek(seekBarFillRatio * currentSongFromAlbum.duration);
     }
     updateSeekPercentage( $(this), seekBarFillRatio );
 
