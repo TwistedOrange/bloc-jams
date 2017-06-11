@@ -192,7 +192,7 @@ var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
   $seekBar.find('.thumb').css( { left: percentageString });
 
   // add seek-bar fill style to fill time used portion
-  $('.seek-bar .fill').css('background-color', 'white');
+  //$('.seek-bar .fill').css('background-color', 'white');
 };
 
 
