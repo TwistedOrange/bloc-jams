@@ -14,8 +14,6 @@ var albumPicasso_OLD = {
 };
 
 
-<<<<<<< HEAD
-=======
 // source: http://www.barbneal.com/the-collection/tv-theme-songs/
 var albumPicasso = {
   title: "70's TV Theme Songs",
@@ -40,8 +38,6 @@ var albumPicasso = {
   ]
 };
 
-
->>>>>>> ckpt21-seekbars
 // another example album
 var albumMarconi = {
   title: 'The Telephone',
