@@ -58,7 +58,6 @@ var createSongRow = function(songNumber, songName, songLength) {
           $('.main-controls .play-pause').html(playerBarPlayButton);
           currentSoundFile.pause();
         }
-
       }
     }
    };
@@ -100,7 +99,7 @@ var createSongRow = function(songNumber, songName, songLength) {
 
 
 /**
- * setSong() - update song object for selected song to play
+ * setSong() - fetch song object for selected song to play
  * @param  {string} songNumber [displayed song number]
  * @return {[n/a]}
  */
@@ -217,7 +216,7 @@ var setupSeekBars = function() {
       setVolume( seekBarFillRatio * 100 );
     } else {
       // song length in seconds * new seek-bar length
-      seek(seekBarFillRatio * currentSongFromAlbum.duration);
+      seek(seekBarFillRatio * currentSongFromAlbum.getDuration());
     }
     updateSeekPercentage( $(this), seekBarFillRatio );
   });

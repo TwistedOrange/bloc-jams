@@ -1,11 +1,7 @@
 # list of files to not track
 #
 # Apple iOS info files
-<<<<<<< HEAD
-*.DS_Store
-=======
 .DS_Store
->>>>>>> ckpt21-seekbars
 #
 # ignore markdown files anywhere in this repo
 *.md
