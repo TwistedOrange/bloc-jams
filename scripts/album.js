@@ -57,6 +57,7 @@ var createSongRow = function(songNumber, songName, songLength) {
           $(this).html(playButtonTemplate);
           $('.main-controls .play-pause').html(playerBarPlayButton);
           currentSoundFile.pause();
+        }
       }
     }
    };
@@ -215,7 +216,7 @@ var setupSeekBars = function() {
       setVolume( seekBarFillRatio * 100 );
     } else {
       // song length in seconds * new seek-bar length
-      seek(seekBarFillRatio * currentSongFromAlbum.duration);
+      seek(seekBarFillRatio * currentSongFromAlbum.getDuration());
     }
     updateSeekPercentage( $(this), seekBarFillRatio );
   });
