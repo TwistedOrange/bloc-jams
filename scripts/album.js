@@ -6,7 +6,7 @@ var createSongRow = function(songNumber, songName, songLength) {
     '<tr class="album-view-song-item">'
     + ' <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
     + ' <td class="song-item-title">' + songName + '</td>'
-    + ' <td class="song-item-duration">' + songLength + '</td>'
+    + ' <td class="song-item-duration">' + filterTimeCode(songLength) + '</td>'
     + '</tr>';
 
   // wrap template in jQuery object for later use
@@ -164,6 +164,8 @@ var updateSeekBarWhileSongPlays = function() {
       var $seekBar = $('.seek-control .seek-bar');
 
       updateSeekPercentage($seekBar, seekBarFillRatio);
+
+      setCurrentTimeInPlayerBar(currentSoundFile.getTime());
     });
   }
 };
@@ -188,6 +190,9 @@ var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
 
   // right side of duration bar (time remaining, %)
   $seekBar.find('.thumb').css( { left: percentageString });
+
+  // add seek-bar fill style to fill time used portion
+  //$('.seek-bar .fill').css('background-color', 'white');
 };
 
 
@@ -213,7 +218,6 @@ var setupSeekBars = function() {
       seek(seekBarFillRatio * currentSongFromAlbum.duration);
     }
     updateSeekPercentage( $(this), seekBarFillRatio );
-
   });
 
   //------
@@ -268,6 +272,11 @@ var updatePlayerBarSong = function() {
     $('.main-controls .play-pause').html(playerBarPauseButton);
   }
 
+  // set max song length in seek-bar - NOT WORK IF SONG PAUSED, writes "--"
+  //setTotalTimeInPlayerBar(currentSoundFile.getDuration());
+
+  setTotalTimeInPlayerBar(currentSongFromAlbum.duration);
+
   $('h2.artist-name').text(currentAlbum.artist);
 };
 
@@ -305,21 +314,6 @@ var nextSong = function() {
   //displaySongLength();
 };
 
-
-// Update time (mm:ss) played in duration seek-bar
-var displayTimeSongPlayed = function() {
-  // total # of seconds for this song
-  //var totalSeconds = currentSoundFile.getDuration();
-
-  var playedSeconds = currentSoundFile.getTime();
-
-  $(document).find('.current-time').text(Math.round(playedSeconds));
-
-  // end time in minutes/sec for current song doesn't change
-  $(document).find('.total-time').text(currentSongFromAlbum.length);
-};
-
-
 var prevSong = function() {
   var songIndexInAlbum = trackIndex(currentAlbum, currentSongFromAlbum);
   songIndexInAlbum--;
@@ -356,6 +350,37 @@ var seek = function(time) {
     // Buzz library setTime() - set playback positon in seconds
     currentSoundFile.setTime(time);
   }
+};
+
+
+//** ASSIGNMENT NEW CODE
+
+//** Reformat seconds to "m:ss" to display in duration seek-bar
+var filterTimeCode = function(timeInSeconds) {
+  var seconds = parseFloat(timeInSeconds);      // string to float
+
+  if ( seconds < 60 ) {        // song < 60 seconds in length
+    return '0:' + Math.round(seconds);
+  }
+
+  var showMinutes = Math.floor(seconds / 60);
+  var showSecs = parseInt(seconds) - showMinutes * 60;
+
+  // format song length > 60 seconds as m:ss
+  return showSecs > 10 ? showMinutes + ':' + showSecs :
+                         showMinutes + ':0' + showSecs;
+};
+
+
+//** updates songs time played in seek-bar as it plays
+var setCurrentTimeInPlayerBar = function(currentTime) {
+  $(document).find('.current-time').text( filterTimeCode(currentTime) );
+};
+
+//** Set text of element with .total-time class to length of song
+//**   assume totalTime is seconds?
+var setTotalTimeInPlayerBar = function(totalTime) {
+  $(document).find('.total-time').text( filterTimeCode(totalTime) );
 };
 
 
