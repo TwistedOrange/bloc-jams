@@ -215,7 +215,7 @@ var setupSeekBars = function() {
       setVolume( seekBarFillRatio * 100 );
     } else {
       // song length in seconds * new seek-bar length
-      seek(seekBarFillRatio * currentSongFromAlbum.getDuration());
+      seek(seekBarFillRatio * currentSongFromAlbum.duration);  //getDuration());
     }
     updateSeekPercentage( $(this), seekBarFillRatio );
   });
@@ -310,8 +310,6 @@ var nextSong = function() {
   $nextSong.html(pauseButtonTemplate);
   $previousSong.html(recentSongPlayed);
 
-  // display song length of new song under duration seek-bar
-  //displaySongLength();
 };
 
 var prevSong = function() {
@@ -352,8 +350,6 @@ var seek = function(time) {
   }
 };
 
-
-//** ASSIGNMENT NEW CODE
 
 //** Reformat seconds to "m:ss" to display in duration seek-bar
 var filterTimeCode = function(timeInSeconds) {
