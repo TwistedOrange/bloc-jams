@@ -157,15 +157,13 @@ var updateSeekBarWhileSongPlays = function() {
   if ( currentSoundFile ) {
     // tie Buzz event 'timeupdate' to current song as it's playing
     currentSoundFile.bind('timeupdate', function(event) {
-      // Use Buzz library getTime() and getDuration() of active song (returns seconds)
-      // http://buzz.jaysalvat.com/documentation/sound/
 
-      var seekBarFillRatio = this.getTime() / this.getDuration();
-      var $seekBar = $('.seek-control .seek-bar');
+    var seekBarFillRatio = this.getTime() / this.getDuration();
+    var $seekBar = $('.seek-control .seek-bar');
 
-      updateSeekPercentage($seekBar, seekBarFillRatio);
+    updateSeekPercentage($seekBar, seekBarFillRatio);
 
-      setCurrentTimeInPlayerBar(currentSoundFile.getTime());
+    setCurrentTimeInPlayerBar(currentSoundFile.getTime());
     });
   }
 };
@@ -191,8 +189,6 @@ var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
   // right side of duration bar (time remaining, %)
   $seekBar.find('.thumb').css( { left: percentageString });
 
-  // add seek-bar fill style to fill time used portion
-  //$('.seek-bar .fill').css('background-color', 'white');
 };
 
 
@@ -215,7 +211,7 @@ var setupSeekBars = function() {
       setVolume( seekBarFillRatio * 100 );
     } else {
       // song length in seconds * new seek-bar length
-      seek(seekBarFillRatio * currentSongFromAlbum.duration);  //getDuration());
+      seek(seekBarFillRatio * currentSongFromAlbum.duration);
     }
     updateSeekPercentage( $(this), seekBarFillRatio );
   });
@@ -261,7 +257,6 @@ var trackIndex = function(album, song) {
 
 // update player bar with song title & artist name for selected song
 var updatePlayerBarSong = function() {
-
   // capture state when toggle same song from play to pause to play
   //  song number is not yet set
   if ( currentlyPlayingSongNumber !== null ) {
@@ -271,9 +266,6 @@ var updatePlayerBarSong = function() {
     // replicate song state on lower player bar
     $('.main-controls .play-pause').html(playerBarPauseButton);
   }
-
-  // set max song length in seek-bar - NOT WORK IF SONG PAUSED, writes "--"
-  //setTotalTimeInPlayerBar(currentSoundFile.getDuration());
 
   setTotalTimeInPlayerBar(currentSongFromAlbum.duration);
 
@@ -356,7 +348,7 @@ var filterTimeCode = function(timeInSeconds) {
   var seconds = parseFloat(timeInSeconds);      // string to float
 
   if ( seconds < 60 ) {        // song < 60 seconds in length
-    return '0:' + Math.round(seconds);
+    return '0:0' + Math.round(seconds);
   }
 
   var showMinutes = Math.floor(seconds / 60);
@@ -374,7 +366,6 @@ var setCurrentTimeInPlayerBar = function(currentTime) {
 };
 
 //** Set text of element with .total-time class to length of song
-//**   assume totalTime is seconds?
 var setTotalTimeInPlayerBar = function(totalTime) {
   $(document).find('.total-time').text( filterTimeCode(totalTime) );
 };
@@ -386,7 +377,6 @@ var setVolume = function(level) {
   }
 };
 
-// added from ckpt20-assignment
 var togglePlayFromPlayerBar = function() {
   var $playingSongCell = getSongNumberCell(currentlyPlayingSongNumber);
 
@@ -403,7 +393,7 @@ var togglePlayFromPlayerBar = function() {
       currentSoundFile.pause()
     }
   } else {    // special case, no song ever played, allow Play button to
-              //    start song 1 just like next/prev buttons can
+              //    start song #1 same as next/prev buttons
     nextSong();
   }
 };
