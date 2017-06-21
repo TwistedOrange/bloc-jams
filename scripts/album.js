@@ -145,7 +145,6 @@ var setCurrentAlbum = function(album) {
 
   // add each song in album as a new table row
   for (var i = 0; i < album.songs.length; i++) {
-    //albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
     var $newRow = createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
 
     $albumSongList.append($newRow);
@@ -347,7 +346,7 @@ var seek = function(time) {
 var filterTimeCode = function(timeInSeconds) {
   var seconds = parseFloat(timeInSeconds);      // string to float
 
-  if ( seconds < 60 ) {        // song < 60 seconds in length
+  if ( seconds < 10 ) {
     return '0:0' + Math.round(seconds);
   }
 
@@ -355,7 +354,7 @@ var filterTimeCode = function(timeInSeconds) {
   var showSecs = parseInt(seconds) - showMinutes * 60;
 
   // format song length > 60 seconds as m:ss
-  return showSecs > 10 ? showMinutes + ':' + showSecs :
+  return showSecs >= 10 ? showMinutes + ':' + showSecs :
                          showMinutes + ':0' + showSecs;
 };
 
